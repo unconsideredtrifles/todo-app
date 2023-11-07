@@ -1,0 +1,26 @@
+body, ul {
+    margin: 0;
+}
+
+#hamburger {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+
+    border: none;
+    padding: 0.5rem;
+
+    background-color: transparent;
+}
+
+#openIcon, #closeIcon {
+    width: 3rem;
+}
+
+#closeIcon {
+    display: none;
+}
+
+
+
