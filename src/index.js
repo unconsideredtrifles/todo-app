@@ -21,5 +21,4 @@ allProjects.forEach(eachProject => {
     projectList.appendChild(projectItem);
 });
 
-document.body.appendChild(projectList);
 
