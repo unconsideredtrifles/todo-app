@@ -1,0 +1,18 @@
+.projectMenu  {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 99;
+
+    width: 25%;
+    padding-top: 5rem;
+    background-color: #e3e3e3;
+
+    transform: translateX(-100%);
+    transition: 0.4s;
+}
+
+.showProjectMenu {
+    transform: translateX(0);
+}
