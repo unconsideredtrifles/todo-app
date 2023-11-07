@@ -1,0 +1,28 @@
+{
+    "todos": [
+        [
+            "Run Grocery",
+            "Run Grocery at tomorrow",
+            "high",
+            "06/11/2023"
+        ],
+        [
+            "Take the trash out",
+            "Take the trash out next Sunday",
+            "medium",
+            "12/11/2023"
+        ],
+        [
+            "Go to the phone repair store",
+            "Go to the phone repair store to see if my phone is done fixing",
+            "medium",
+            "8/11/2023"
+        ],
+        [
+            "Eat the pack of waffle",
+            "Eat the pack of waffle in the fridge before getting expired",
+            "low",
+            "6/11/2023"
+        ]
+    ]
+}
