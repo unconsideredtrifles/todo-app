@@ -1,4 +1,6 @@
-body, ul {
+body, h1, h2, h3, h4, h5, h6, ul,
+button {
+    padding: 0;
     margin: 0;
 }
 
@@ -15,7 +17,7 @@ body, ul {
 }
 
 #openIcon, #closeIcon {
-    width: 3rem;
+    width: 2rem;
 }
 
 #closeIcon {
