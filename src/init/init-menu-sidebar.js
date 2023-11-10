@@ -2,61 +2,93 @@ import { projectTracker, Project, ToDo } from "../todos/todo.js";
 import toDoData from "../todos/todo-data.json";
 import "./style.css";
 
+
 function getProjectIcon()  {
     let projectIconTemplate = document.getElementById("projectIconTemplate");
     let iconTemplateNode = projectIconTemplate.content.cloneNode(true);
     return iconTemplateNode.querySelector(".projectIcon");
 }
 
+
+class PageElementUI {
+    constructor(root, parentElement) {
+        this.parent = document.createElement(parentElement.name);
+        this.parent.classList.add(parentElement.class)
+        root.appendChild(this.parent);
+    }
+
+    addChildren(elements) {
+        elements.forEach(eachElement => {
+            let element = document.createElement(eachElement.name);
+            element.classList.add(eachElement.class);
+            let childType = (!eachElement.type) ? "text" : eachElement.type;
+            if(childType === "text") {
+                element.textContent = eachElement.content;
+            } else if(childType === "element") {
+                element.appendChild(eachElement.content);
+            }
+            this.parent.appendChild(element);
+        });
+    }
+
+}
+
+
 let defaultProject = new Project();
 let workProject = new Project("work");
+
+projectTracker.addProject(defaultProject);
+projectTracker.addProject(workProject);
 
 for(let eachToDoArg of toDoData.todos) {
     let eachToDo = new ToDo(...eachToDoArg);
     defaultProject.addToDo(eachToDo);
 }
 
-projectTracker.addProject(defaultProject);
-projectTracker.addProject(workProject);
-
 let projectMenu = document.createElement("div");
 projectMenu.classList.add("projectMenu");
 
-let projectMenuHeader = document.createElement("div");
-projectMenuHeader.classList.add("projectMenuHeader");
+let menuHeader = new PageElementUI(projectMenu, {
+    name: "div",
+    class: "projectMenuHeader",
+});
+menuHeader.addChildren([
+    { 
+        name: "button", 
+        class: "projectMenuHeaderBtn",
+        content: "+",
+    },
+    {
+        name: "div",
+        class: "projectMenuHeaderText",
+        content: "Projects",
+    }
+]);
 
-let projectAddBtn = document.createElement("button");
-projectAddBtn.classList.add("projectMenuHeaderBtn");
-projectAddBtn.textContent = "+";
-projectMenuHeader.appendChild(projectAddBtn);
+let menuSeparator = new PageElementUI(projectMenu, {
+    name: "div",
+    class: "projectMenuSeparator"
+});
 
-let projectMenuHeaderText = document.createElement("h4");
-projectMenuHeaderText.classList.add("projectMenuHeaderText");
-projectMenuHeaderText.textContent = "Projects";
-projectMenuHeader.appendChild(projectMenuHeaderText);
-
-projectMenu.appendChild(projectMenuHeader);
-
-let projectMenuSep = document.createElement("div");
-projectMenuSep.classList.add("projectMenuSeparator");
-projectMenu.appendChild(projectMenuSep);
-
-let projectMenuList = document.createElement("ul");
-projectMenuList.classList.add("projectMenuList");
-projectMenu.appendChild(projectMenuList);
+let menuItemList = new PageElementUI(projectMenu, {
+    name: "ul",
+    class: "projectMenuList",
+});
 
 let allProjects = projectTracker.getAllProjects();
 allProjects.forEach(eachProject => {
-    let projectItem = document.createElement("li");
-    projectItem.classList.add("projectItem");
-    projectItem.appendChild(getProjectIcon());
-
-    let projectItemText = document.createElement("span");
-    projectItemText.classList.add("projectItemText");
-    projectItemText.textContent = eachProject.name;
-    projectItem.appendChild(projectItemText);
-
-    projectMenuList.appendChild(projectItem);
+    let menuItem = new PageElementUI(menuItemList.parent, {
+        name: "li",
+        class: "projectItem",
+    });
+    menuItem.parent.appendChild(getProjectIcon());
+    menuItem.addChildren([
+        {
+            name: "span",
+            class: "projectItemText",
+            content: eachProject.name,
+        }
+    ]);
 });
 
 export {
