@@ -11,24 +11,33 @@ function getProjectIcon()  {
 
 
 class PageElementUI {
-    constructor(root, parentElement) {
-        this.parent = document.createElement(parentElement.name);
-        this.parent.classList.add(parentElement.class)
-        root.appendChild(this.parent);
+    #currentElement;
+
+    constructor(parent, currentElement) {
+        this.#currentElement = document.createElement(currentElement.name);
+        this.#currentElement.classList.add(currentElement.class)
+        parent.appendChild(this.#currentElement);
     }
 
-    addChildren(elements) {
+    addElements(elements) {
         elements.forEach(eachElement => {
             let element = document.createElement(eachElement.name);
             element.classList.add(eachElement.class);
-            let childType = (!eachElement.type) ? "text" : eachElement.type;
-            if(childType === "text") {
-                element.textContent = eachElement.content;
-            } else if(childType === "element") {
-                element.appendChild(eachElement.content);
+            element.textContent = eachElement.content;
+            if("listener" in eachElement) {
+                element.addEventListener(...eachElement.listener);
             }
-            this.parent.appendChild(element);
+
+            this.#currentElement.appendChild(element);
         });
+    }
+
+    getElement() {
+        return this.#currentElement;
+    }
+
+    addChild(child) {
+        this.#currentElement.appendChild(child);
     }
 
 }
@@ -52,11 +61,13 @@ let menuHeader = new PageElementUI(projectMenu, {
     name: "div",
     class: "projectMenuHeader",
 });
-menuHeader.addChildren([
+
+menuHeader.addElements([
     { 
         name: "button", 
         class: "projectMenuHeaderBtn",
         content: "+",
+        listener: ["click", addProjectItem],
     },
     {
         name: "div",
@@ -77,12 +88,12 @@ let menuItemList = new PageElementUI(projectMenu, {
 
 let allProjects = projectTracker.getAllProjects();
 allProjects.forEach(eachProject => {
-    let menuItem = new PageElementUI(menuItemList.parent, {
+    let menuItem = new PageElementUI(menuItemList.getElement(), {
         name: "li",
         class: "projectItem",
     });
-    menuItem.parent.appendChild(getProjectIcon());
-    menuItem.addChildren([
+    menuItem.addChild(getProjectIcon());
+    menuItem.addElements([
         {
             name: "span",
             class: "projectItemText",
