@@ -25,7 +25,8 @@ function setProjectName(e) {
 
     if(e.key === "Enter") {
         e.target.removeAttribute("contenteditable");
-        projectTracker.addProject(e.target.textContent);
+        let projectToAdd = new Project(e.target.textContent);
+        projectTracker.addProject(projectToAdd);
         e.target.parentElement.style.backgroundColor = "";
     }
 
