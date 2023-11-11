@@ -86,17 +86,6 @@ class PageElementUI {
 }
 
 
-let defaultProject = new Project();
-let workProject = new Project("work");
-
-projectTracker.addProject(defaultProject);
-projectTracker.addProject(workProject);
-
-for(let eachToDoArg of toDoData.todos) {
-    let eachToDo = new ToDo(...eachToDoArg);
-    defaultProject.addToDo(eachToDo);
-}
-
 let projectMenu = document.createElement("div");
 projectMenu.classList.add("projectMenu");
 

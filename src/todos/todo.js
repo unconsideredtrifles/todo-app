@@ -2,6 +2,7 @@ import {
     ToDoDate, 
     DateValidator,
 } from "../dates/date.js";
+import toDoData from "./todo-data.json";
 
 
 class ProjectTracker {
@@ -35,8 +36,6 @@ class ProjectTracker {
         );
     }
 }
-
-let projectTracker = new ProjectTracker();
 
 
 class Project {
@@ -105,6 +104,19 @@ class ToDo {
 
         this.#dueDate = new ToDoDate(dueDate);
     }
+}
+
+
+let defaultProject = new Project();
+let workProject = new Project("work");
+
+let projectTracker = new ProjectTracker();
+projectTracker.addProject(defaultProject);
+projectTracker.addProject(workProject);
+
+for(let eachToDoArg of toDoData.todos) {
+    let eachToDo = new ToDo(...eachToDoArg);
+    defaultProject.addToDo(eachToDo);
 }
 
 export {
