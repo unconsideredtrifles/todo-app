@@ -10,6 +10,49 @@ function getProjectIcon()  {
 }
 
 
+function cancelNameAddBox(e) {
+    let menuList = e.target.parentElement.parentElement;
+    let menuListItem = e.target.parentElement;
+    menuList.removeChild(menuListItem);
+}
+
+
+function setProjectName(e) {
+    if(!(e.ctrlKey) && !(["Backspace", "Enter"].includes(e.key))
+            && e.target.textContent.length >= 20) {
+        e.preventDefault();
+    }
+
+    if(e.key === "Enter") {
+        e.target.removeAttribute("contenteditable");
+        projectTracker.addProject(e.target.textContent);
+        e.target.parentElement.style.backgroundColor = "";
+    }
+
+    if(e.key === "Escape") {
+        cancelNameAddBox(e);
+    }
+}
+
+
+function addProjectItem() {
+    let projectItem = new PageElementUI(menuItemList.getElement(), {
+        name: "li",
+        class: "projectItem"
+    });
+    projectItem.getElement().style.backgroundColor = "#d8d8d8";
+    projectItem.addChild(getProjectIcon());
+
+    let projectNameAddBox = document.createElement("span");
+    projectNameAddBox.classList.add("projectItemText");
+    projectNameAddBox.setAttribute("contenteditable", "true");
+    projectNameAddBox.setAttribute("spellcheck", "false");
+    projectNameAddBox.addEventListener("keydown", setProjectName);
+    projectItem.addChild(projectNameAddBox);
+    projectNameAddBox.focus();
+}
+
+
 class PageElementUI {
     #currentElement;
 
