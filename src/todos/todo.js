@@ -7,6 +7,7 @@ import toDoData from "./todo-data.json";
 
 class ProjectTracker {
     #allProjects;
+    #currentProject;
 
     constructor(allProjects = []) {
         this.#allProjects = allProjects;
@@ -28,6 +29,19 @@ class ProjectTracker {
             eachProject.name === projectName
         );
         this.#allProjects.splice(idx2Delete, 1);
+    }
+
+    getActiveProject() {
+        return this.#currentProject;
+    }
+
+    setActiveProject(projectName) {
+        for(let eachProject of this.#allProjects) {
+            if(eachProject.name === projectName) {
+                this.#currentProject = eachProject;
+                break;
+            }
+        }
     }
 
     isDuplicateProject(project) {
@@ -112,6 +126,7 @@ let workProject = new Project("work");
 
 let projectTracker = new ProjectTracker();
 projectTracker.addProject(defaultProject);
+projectTracker.setActiveProject(defaultProject.name);
 projectTracker.addProject(workProject);
 
 for(let eachToDoArg of toDoData.todos) {
