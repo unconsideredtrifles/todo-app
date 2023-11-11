@@ -47,13 +47,14 @@
 
 .projectMenuList {
     list-style-type: none;
-    padding-left: 0.4rem;
 }
 
 .projectItem {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+
+    padding: 0.5rem 0 0.5rem 0.4rem;
 }
 
 .projectIcon {
@@ -65,6 +66,11 @@
     font-size: 1.2rem;    
 }
 
-.projectItem + .projectItem {
-    margin-top: 1rem;
+.projectItemText[contenteditable=true]:focus-visible {
+    width: 20ch;
+    outline: 1px solid #000;
+    padding: 0.25rem;
+    
+    font-size: inherit;
+    font-family: monospace, monospace;
 }
