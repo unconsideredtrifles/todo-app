@@ -1,5 +1,6 @@
 import { projectTracker, Project, ToDo } from "../todos/todo.js";
 import toDoData from "../todos/todo-data.json";
+import { DOMTree } from "../misc/util.js";
 import "./style.css";
 
 
@@ -51,39 +52,6 @@ function addProjectItem() {
     projectNameAddBox.addEventListener("keydown", setProjectName);
     projectItem.addChild(projectNameAddBox);
     projectNameAddBox.focus();
-}
-
-
-class DOMTree {
-    #rootElement;
-
-    constructor(parent, rootElement) {
-        this.#rootElement = document.createElement(rootElement.name);
-        this.#rootElement.classList.add(rootElement.class)
-        parent.appendChild(this.#rootElement);
-    }
-
-    addElements(elements) {
-        elements.forEach(eachElement => {
-            let element = document.createElement(eachElement.name);
-            element.classList.add(eachElement.class);
-            element.textContent = eachElement.content;
-            if("listener" in eachElement) {
-                element.addEventListener(...eachElement.listener);
-            }
-
-            this.#rootElement.appendChild(element);
-        });
-    }
-
-    getRootElement() {
-        return this.#rootElement;
-    }
-
-    addChild(child) {
-        this.#rootElement.appendChild(child);
-    }
-
 }
 
 
