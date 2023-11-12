@@ -1,6 +1,6 @@
 import { projectTracker, Project, ToDo } from "../todos/todo.js";
-import toDoData from "../todos/todo-data.json";
 import { DOMTree } from "../misc/util.js";
+import toDoData from "../todos/todo-data.json";
 import "./style.css";
 
 

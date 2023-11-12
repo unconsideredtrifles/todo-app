@@ -37,7 +37,7 @@ class DOMTree {
         this.#rootElement.appendChild(child);
     }
 
-}
+};
 
 export {
     isDirectInstanceOf,

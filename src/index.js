@@ -1,5 +1,6 @@
 import { projectMenu } from "./init/init-menu-sidebar.js";
 import { ToDo, projectTracker} from "./todos/todo.js";
+import { DOMTree } from "./misc/util.js";
 
 let hamburgerBtn = document.getElementById("hamburger");
 let openIcon = document.getElementById("openIcon");
@@ -20,4 +21,18 @@ document.body.appendChild(projectMenu);
 
 let activeProject = projectTracker.getActiveProject();
 let allToDos = activeProject.getAllToDos();
-console.log(allToDos);
+
+let toDoContainer = document.getElementById("toDoDisplay");
+allToDos.forEach(eachToDo => {
+    let toDoTemplate = document.getElementById("toDoRowTemplate");
+    let toDoRow = toDoTemplate.content.cloneNode(true);
+
+    let toDoTitle = toDoRow.querySelector(".toDoTitle");
+    toDoTitle.textContent = eachToDo.title;
+    toDoContainer.appendChild(toDoRow);
+
+    let separator = new DOMTree(toDoContainer, {
+        name: "div",
+        class: "toDoSeparator",
+    });
+});
