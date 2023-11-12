@@ -37,11 +37,11 @@ function setProjectName(e) {
 
 
 function addProjectItem() {
-    let projectItem = new PageElementUI(menuItemList.getElement(), {
+    let projectItem = new DOMTree(menuItemList.getRootElement(), {
         name: "li",
         class: "projectItem"
     });
-    projectItem.getElement().style.backgroundColor = "#d8d8d8";
+    projectItem.getRootElement().style.backgroundColor = "#d8d8d8";
     projectItem.addChild(getProjectIcon());
 
     let projectNameAddBox = document.createElement("span");
@@ -54,13 +54,13 @@ function addProjectItem() {
 }
 
 
-class PageElementUI {
-    #currentElement;
+class DOMTree {
+    #rootElement;
 
-    constructor(parent, currentElement) {
-        this.#currentElement = document.createElement(currentElement.name);
-        this.#currentElement.classList.add(currentElement.class)
-        parent.appendChild(this.#currentElement);
+    constructor(parent, rootElement) {
+        this.#rootElement = document.createElement(rootElement.name);
+        this.#rootElement.classList.add(rootElement.class)
+        parent.appendChild(this.#rootElement);
     }
 
     addElements(elements) {
@@ -72,16 +72,16 @@ class PageElementUI {
                 element.addEventListener(...eachElement.listener);
             }
 
-            this.#currentElement.appendChild(element);
+            this.#rootElement.appendChild(element);
         });
     }
 
-    getElement() {
-        return this.#currentElement;
+    getRootElement() {
+        return this.#rootElement;
     }
 
     addChild(child) {
-        this.#currentElement.appendChild(child);
+        this.#rootElement.appendChild(child);
     }
 
 }
@@ -90,7 +90,7 @@ class PageElementUI {
 let projectMenu = document.createElement("div");
 projectMenu.classList.add("projectMenu");
 
-let menuHeader = new PageElementUI(projectMenu, {
+let menuHeader = new DOMTree(projectMenu, {
     name: "div",
     class: "projectMenuHeader",
 });
@@ -109,19 +109,19 @@ menuHeader.addElements([
     }
 ]);
 
-let menuSeparator = new PageElementUI(projectMenu, {
+let menuSeparator = new DOMTree(projectMenu, {
     name: "div",
     class: "projectMenuSeparator"
 });
 
-let menuItemList = new PageElementUI(projectMenu, {
+let menuItemList = new DOMTree(projectMenu, {
     name: "ul",
     class: "projectMenuList",
 });
 
 let allProjects = projectTracker.getAllProjects();
 allProjects.forEach(eachProject => {
-    let menuItem = new PageElementUI(menuItemList.getElement(), {
+    let menuItem = new DOMTree(menuItemList.getRootElement(), {
         name: "li",
         class: "projectItem",
     });
