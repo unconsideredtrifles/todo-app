@@ -1,4 +1,5 @@
 import { projectMenu } from "./init/init-menu-sidebar.js";
+import { ToDo, projectTracker} from "./todos/todo.js";
 
 let hamburgerBtn = document.getElementById("hamburger");
 let openIcon = document.getElementById("openIcon");
@@ -16,3 +17,7 @@ hamburgerBtn.addEventListener("click", e => {
 })
 
 document.body.appendChild(projectMenu);
+
+let activeProject = projectTracker.getActiveProject();
+let allToDos = activeProject.getAllToDos();
+console.log(allToDos);
