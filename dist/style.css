@@ -64,9 +64,50 @@ button {
     padding: 1.2rem 0;
 }
 
+.toDoInfo {
+    padding-left: 2rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.toDoCheckbox {
+    appearance: none;
+    position: relative;
+
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 1.2px solid #a8a8a8;
+}
+
+.toDoCheckbox:checked::before {
+    position: absolute;
+    top: -0.3rem;
+    left: -0.1rem;
+
+    content: "✓";
+    font-size: 1.5rem;
+    color: #4a844a;
+}
+
+.strikedOut {
+    position: relative;
+    background-color: #d6d6d6;
+}
+
+.strikedOut::before {
+    position: absolute;
+    top: 50%;
+    left: 4rem;
+    right: 4.8rem;
+
+    content: "";
+    border-bottom: 1.5px solid #848484;
+}
+
 .toDoTitle {
     font-size: 1.3rem;
-    padding-left: 2rem;
 }
 
 .toDoIcons {
@@ -95,6 +136,10 @@ button {
     border-bottom: 1px solid #c3c3c3;
     width: 95%;
     margin: 0 auto;
+}
+
+.strikedOut + .toDoSeparator:not(last-of-type) {
+    border-width: 0px;
 }
 
 

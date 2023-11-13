@@ -27,6 +27,12 @@ allToDos.forEach(eachToDo => {
     let toDoTemplate = document.getElementById("toDoRowTemplate");
     let toDoRow = toDoTemplate.content.cloneNode(true);
 
+    let toDoCheckBtn = toDoRow.querySelector(".toDoCheckbox");
+    toDoCheckBtn.addEventListener("click", e => {
+        let currentToDo = e.target.parentElement.parentElement;
+        currentToDo.classList.toggle("strikedOut");
+    });
+
     let toDoTitle = toDoRow.querySelector(".toDoTitle");
     toDoTitle.textContent = eachToDo.title;
     toDoContainer.appendChild(toDoRow);
