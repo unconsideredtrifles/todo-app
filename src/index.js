@@ -29,12 +29,32 @@ allToDos.forEach(eachToDo => {
 
     let toDoCheckBtn = toDoRow.querySelector(".toDoCheckbox");
     toDoCheckBtn.addEventListener("click", e => {
-        let currentToDo = e.target.parentElement.parentElement;
-        currentToDo.classList.toggle("strikedOut");
+        let toDoTop = e.target.parentElement.parentElement;
+        toDoTop.classList.toggle("strikedOutTitle");
+
+        let currentToDo = toDoTop.parentElement;
+        currentToDo.classList.toggle("finishedToDo");
+
+        let descr = currentToDo.getElementsByClassName("toDoDescription")[0];
+        descr.classList.toggle("strikedOutDescription");
     });
 
     let toDoTitle = toDoRow.querySelector(".toDoTitle");
     toDoTitle.textContent = eachToDo.title;
+
+    let moreInfo = toDoRow.querySelector(".toDoMoreInfo");
+    let toDoDescription = moreInfo.getElementsByClassName("toDoDescription")[0];
+    let toDoDate = moreInfo.getElementsByClassName("toDoDate")[0];
+    toDoDescription.textContent = eachToDo.description;
+    toDoDate.textContent = eachToDo.dueDate;
+
+    let collapseBtn = toDoRow.querySelector(".collapseBtn");
+    collapseBtn.addEventListener("click", function() {
+        this.classList.toggle("collapseBtnRotate");
+        let currentToDo = this.parentElement.parentElement.parentElement;
+        let  moreInfo = currentToDo.children[1];
+        moreInfo.classList.toggle("toDoExpand");
+    });
     toDoContainer.appendChild(toDoRow);
 
     let separator = new DOMTree(toDoContainer, {

@@ -57,11 +57,13 @@ button {
 }
 
 .toDoRow {
+    padding: 1.2rem 0;
+}
+
+.toDoTop {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    padding: 1.2rem 0;
 }
 
 .toDoInfo {
@@ -91,18 +93,36 @@ button {
     color: #4a844a;
 }
 
-.strikedOut {
+.finishedToDo {
     position: relative;
     background-color: #d6d6d6;
 
     top: -1px;
 }
 
-.strikedOut::before {
+.strikedOutTitle {
+    position: relative;
+}
+
+.strikedOutTitle::before {
     position: absolute;
     top: 50%;
     left: 4rem;
-    right: 4.8rem;
+    right: 2rem;
+
+    content: "";
+    border-bottom: 1.5px solid #848484;
+}
+
+.strikedOutDescription {
+    position: relative;
+}
+
+.strikedOutDescription::before {
+    position: absolute;
+    top: 50%;
+    left: -0.3rem;
+    right: 1.8rem;
 
     content: "";
     border-bottom: 1.5px solid #848484;
@@ -115,7 +135,7 @@ button {
 .toDoIcons {
     display: flex;
     gap: 2rem;
-    padding-right: 5rem;
+    padding-right: 2rem;
 }
 
 .toDoIcon {
@@ -134,12 +154,40 @@ button {
     fill: #df5757;
 }
 
+.collapseBtn {
+    width: 3rem;
+    fill: #888;
+    transition: 0.4s all ease;
+}
+
+.collapseBtnRotate {
+    transform: rotate(-90deg);
+}
+
+.toDoMoreInfo {
+    display: none;
+
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+    padding-left: 4.4rem;
+
+    font-size: 1.3rem;
+}
+
+.toDoExpand {
+    display: block;
+}
+
+.toDoDescription {
+    margin-bottom: 0.8rem;
+}
+
 .toDoSeparator:not(:last-of-type) {
     border-bottom: 1px solid #c3c3c3;
     width: 95%;
     margin: 0 auto;
 }
 
-.strikedOut + .toDoSeparator:not(last-of-type) {
+.finishedToDo + .toDoSeparator:not(last-of-type) {
     border-width: 0px;
 }
