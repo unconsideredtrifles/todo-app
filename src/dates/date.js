@@ -22,10 +22,9 @@ class ToDoDate {
     static convertToDateArgs(dateStr) {
         /* this transforms dateStr into an array compatible
          * for arguments in Date constructor (with spread syntax)
-         * for example, "18/1/2021" becomes [2021, 1, 18]
+         * for example, "2021-1-18" becomes [2021, 1, 18]
          */
         let dateArr = convertToDateArr(dateStr);
-        dateArr.reverse();
         dateArr[1]--; /* months start from 0 (not 1) */
         return dateArr;
     }
@@ -34,9 +33,9 @@ class ToDoDate {
 
 function convertToDateArr(dateStr) {
     /* convert date string into an array of numbers.
-     * "18/01/2021" becomes [18, 1, 2021];
+     * "2021-1-18" becomes [2021, 1, 18];
      */
-    let dateArr = dateStr.split("/");
+    let dateArr = dateStr.split("-");
     return dateArr.map(Number);
 }
 
@@ -59,8 +58,8 @@ class DateValidator {
             throwError("number");
         }
 
-        let day = this.#dateArr[0];
         let month = this.#dateArr[1];
+        let day = this.#dateArr[2];
 
         let ifValidDay = day >= 1 && day <= DateValidator.getDaysInAMonth(day);
         if(!ifValidDay) {
