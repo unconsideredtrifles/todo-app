@@ -31,7 +31,7 @@ button {
 
 #toDoDisplay {
    width: 60%; 
-   margin: 0 auto;
+   margin: 0 auto 5rem;
    box-shadow: 0px 3px 5px 2px rgba(0, 0, 0, 0.1);
    border: 1px solid #c3c3c3;
 }
