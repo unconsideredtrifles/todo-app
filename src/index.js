@@ -13,6 +13,42 @@ function markToDoAsFinished(e) {
         descr.classList.toggle("strikedOutDescription");
 }
 
+function editToDo(e, elementToEdit, toDoProp, toDoID) {
+    elementToEdit.setAttribute("contenteditable", "true");
+    elementToEdit.addEventListener("keydown", e => {
+        if((!e.ctrlKey) && (!["Enter", "Escape", "Backspace"].includes(e.key)) 
+            && e.target.textContent.length >= 30) {
+            e.preventDefault();
+            return;
+        }
+
+        if(e.key === "Enter") {
+            let toDoToEdit = activeProject.getToDo(toDoID)
+            toDoToEdit[toDoProp] = e.target.textContent;
+            e.target.removeAttribute("contenteditable");
+            console.log(activeProject);
+        }
+
+    })
+    elementToEdit.focus();
+}
+
+function editToDoTitle(e) {
+    let toDoTopRow = this.parentElement.parentElement;
+    let toDoTitle = toDoTopRow.children[0].children[1];
+    let toDoID = +toDoTopRow.parentElement.dataset.id;
+
+    editToDo(e, toDoTitle, "title", toDoID);
+}
+
+function editToDoDescription(e) {
+    let toDoDescription = this.parentElement.children[0]
+    let toDo = this.parentElement.parentElement.parentElement
+    let toDoID = +toDo.dataset.id;
+
+    editToDo(e, toDoDescription, "description", toDoID);
+}
+
 function toggleCollapseExpand(e) {
     this.classList.toggle("collapseBtnRotate");
     let currentToDo = this.parentElement.parentElement.parentElement;
@@ -59,6 +95,12 @@ allToDos.forEach(eachToDo => {
     let toDoDate = moreInfo.getElementsByClassName("toDoDate")[0];
     toDoDescription.textContent = eachToDo.description;
     toDoDate.textContent = eachToDo.dueDate;
+
+    let titleEditor = toDoRow.querySelector(".titleEditBtn");
+    titleEditor.addEventListener("click", editToDoTitle);
+
+    let descriptionEditor = toDoRow.querySelector(".descriptionEditBtn");
+    descriptionEditor.addEventListener("click", editToDoDescription);
 
     let collapseBtn = toDoRow.querySelector(".collapseBtn");
     collapseBtn.addEventListener("click", toggleCollapseExpand);
