@@ -184,8 +184,24 @@ button {
     display: block;
 }
 
-.toDoDescription {
+.description {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
     margin-bottom: 0.8rem;
+}
+
+.toDoDescription:focus-visible {
+    outline: 1px solid #000;
+    padding: 0.2rem;
+}
+
+.descriptionEditBtn {
+    fill: #444;
+    width: 1.6rem;
+
+    cursor: pointer;
 }
 
 .toDoSeparator:not(:last-of-type) {
