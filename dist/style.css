@@ -152,8 +152,9 @@ button {
     fill: #00ff00;
 }
 
-.editBtn {
+.titleEditBtn {
     fill: #5f5fff;
+    cursor: pointer;
 }
 
 .deleteBtn {
