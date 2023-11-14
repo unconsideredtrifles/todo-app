@@ -13,10 +13,9 @@ class ToDoDate {
         let isoDateStr = this.#date.toISOString();
         let isoDatePart = isoDateStr.split("T")[0];
         let isoDatePartArr = isoDatePart.split("-");
-        isoDatePartArr.reverse();
-        isoDatePartArr[0] = isoDatePartArr[0].padStart(2, "0");
         isoDatePartArr[1] = isoDatePartArr[1].padStart(2, "0");
-        return isoDatePartArr.join("/");
+        isoDatePartArr[2] = isoDatePartArr[2].padStart(2, "0");
+        return isoDatePartArr.join("-");
     }
 
     static convertToDateArgs(dateStr) {
