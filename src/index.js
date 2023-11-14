@@ -49,6 +49,18 @@ function editToDoDescription(e) {
     editToDo(e, toDoDescription, "description", toDoID);
 }
 
+function editToDoDate(e) {
+    let currentToDoEl = this.parentElement;
+    for(let i = 0; i < 2; i++) {
+        currentToDoEl = currentToDoEl.parentElement;
+    }
+    let toDoID = +currentToDoEl.dataset.id;
+
+    let toDoToEdit = activeProject.getToDo(toDoID);
+    toDoToEdit.dueDate = e.target.value;
+    console.log(activeProject.getAllToDos());
+}
+
 function toggleCollapseExpand(e) {
     this.classList.toggle("collapseBtnRotate");
     let currentToDo = this.parentElement.parentElement.parentElement;
@@ -94,6 +106,7 @@ allToDos.forEach(eachToDo => {
     let toDoDescription = moreInfo.getElementsByClassName("toDoDescription")[0];
     let toDoDate = moreInfo.getElementsByClassName("toDoDate")[0];
     toDoDescription.textContent = eachToDo.description;
+    toDoDate.addEventListener("input", editToDoDate);
     toDoDate.setAttribute("value", eachToDo.dueDate);
 
     let titleEditor = toDoRow.querySelector(".titleEditBtn");
