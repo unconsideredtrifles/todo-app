@@ -11,6 +11,9 @@ function markToDoAsFinished(e) {
 
         let descr = currentToDo.getElementsByClassName("toDoDescription")[0];
         descr.classList.toggle("strikedOutDescription");
+
+        let date = currentToDo.getElementsByClassName("dueDate")[0];
+        date.classList.toggle("strikedOutDate");
 }
 
 function editToDo(e, elementToEdit, toDoProp, toDoID) {

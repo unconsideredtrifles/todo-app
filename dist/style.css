@@ -122,7 +122,21 @@ button {
     position: absolute;
     top: 50%;
     left: -0.3rem;
-    right: 1.8rem;
+    right: -2.3rem;
+
+    content: "";
+    border-bottom: 1.5px solid #848484;
+}
+
+.strikedOutDate {
+    position: relative;
+}
+
+.strikedOutDate::before {
+    position: absolute;
+    top: 50%;
+    left: -0.3rem;
+    right: -0.5rem;
 
     content: "";
     border-bottom: 1.5px solid #848484;
