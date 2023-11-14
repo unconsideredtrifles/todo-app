@@ -79,6 +79,12 @@ class Project {
         })
     }
 
+    getToDo(toDoID) {
+        return this.#toDoArr.find(eachToDo => {
+            return eachToDo.toDoID === toDoID;
+        });
+    }
+
     getAllToDos() {
         return this.#toDoArr;
     }
