@@ -94,7 +94,7 @@ allToDos.forEach(eachToDo => {
     let toDoDescription = moreInfo.getElementsByClassName("toDoDescription")[0];
     let toDoDate = moreInfo.getElementsByClassName("toDoDate")[0];
     toDoDescription.textContent = eachToDo.description;
-    toDoDate.textContent = eachToDo.dueDate;
+    toDoDate.setAttribute("value", eachToDo.dueDate);
 
     let titleEditor = toDoRow.querySelector(".titleEditBtn");
     titleEditor.addEventListener("click", editToDoTitle);
