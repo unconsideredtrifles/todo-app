@@ -45,6 +45,9 @@ allToDos.forEach(eachToDo => {
     let toDoTemplate = document.getElementById("toDoRowTemplate");
     let toDoRow = toDoTemplate.content.cloneNode(true);
 
+    let currentToDo = toDoRow.querySelector(".toDoRow");
+    currentToDo.dataset.id = eachToDo.toDoID;
+
     let toDoCheckBtn = toDoRow.querySelector(".toDoCheckbox");
     toDoCheckBtn.addEventListener("click", markToDoAsFinished);
 
