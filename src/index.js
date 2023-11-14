@@ -2,6 +2,24 @@ import { projectMenu } from "./init/init-menu-sidebar.js";
 import { ToDo, projectTracker} from "./todos/todo.js";
 import { DOMTree } from "./misc/util.js";
 
+function markToDoAsFinished(e) {
+        let toDoTop = e.target.parentElement.parentElement;
+        toDoTop.classList.toggle("strikedOutTitle");
+
+        let currentToDo = toDoTop.parentElement;
+        currentToDo.classList.toggle("finishedToDo");
+
+        let descr = currentToDo.getElementsByClassName("toDoDescription")[0];
+        descr.classList.toggle("strikedOutDescription");
+}
+
+function toggleCollapseExpand(e) {
+    this.classList.toggle("collapseBtnRotate");
+    let currentToDo = this.parentElement.parentElement.parentElement;
+    let moreInfo = currentToDo.children[1];
+    moreInfo.classList.toggle("toDoExpand");
+}
+
 let hamburgerBtn = document.getElementById("hamburger");
 let openIcon = document.getElementById("openIcon");
 let closeIcon = document.getElementById("closeIcon");
@@ -28,16 +46,7 @@ allToDos.forEach(eachToDo => {
     let toDoRow = toDoTemplate.content.cloneNode(true);
 
     let toDoCheckBtn = toDoRow.querySelector(".toDoCheckbox");
-    toDoCheckBtn.addEventListener("click", e => {
-        let toDoTop = e.target.parentElement.parentElement;
-        toDoTop.classList.toggle("strikedOutTitle");
-
-        let currentToDo = toDoTop.parentElement;
-        currentToDo.classList.toggle("finishedToDo");
-
-        let descr = currentToDo.getElementsByClassName("toDoDescription")[0];
-        descr.classList.toggle("strikedOutDescription");
-    });
+    toDoCheckBtn.addEventListener("click", markToDoAsFinished);
 
     let toDoTitle = toDoRow.querySelector(".toDoTitle");
     toDoTitle.textContent = eachToDo.title;
@@ -49,12 +58,7 @@ allToDos.forEach(eachToDo => {
     toDoDate.textContent = eachToDo.dueDate;
 
     let collapseBtn = toDoRow.querySelector(".collapseBtn");
-    collapseBtn.addEventListener("click", function() {
-        this.classList.toggle("collapseBtnRotate");
-        let currentToDo = this.parentElement.parentElement.parentElement;
-        let  moreInfo = currentToDo.children[1];
-        moreInfo.classList.toggle("toDoExpand");
-    });
+    collapseBtn.addEventListener("click", toggleCollapseExpand);
     toDoContainer.appendChild(toDoRow);
 
     let separator = new DOMTree(toDoContainer, {
