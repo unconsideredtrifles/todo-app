@@ -205,6 +205,10 @@ button {
     cursor: pointer;
 }
 
+.toDoDate {
+    margin-left: 0.4rem;
+}
+
 .toDoSeparator:not(:last-of-type) {
     border-bottom: 1px solid #c3c3c3;
     width: 95%;
