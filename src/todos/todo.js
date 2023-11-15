@@ -101,6 +101,7 @@ class Project {
 class ToDo {
     static priorities = ["low", "medium", "high"];
     static nextToDoID = 0;
+    #priority;
     #dueDate;
 
     constructor(title, description, priority, dueDate, parentTodo = null, childTodo = null) {
@@ -113,6 +114,18 @@ class ToDo {
         this.parentTodo = parentTodo;
         this.childTodo = childTodo;
 
+    }
+
+    get priority() {
+        return this.#priority;
+    }
+
+    set priority(value) {
+        if(!ToDo.priorities.includes(value)) {
+            throw new Error("priority must be one of low, medium and high");
+            return;
+        }
+        this.#priority = value;
     }
 
     rotatePriority() {
