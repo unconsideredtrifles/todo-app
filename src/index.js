@@ -64,6 +64,22 @@ function editToDoDate(e) {
     console.log(activeProject.getAllToDos());
 }
 
+function editToDoPriority(e) {
+    let currentToDoEl = this.parentElement;
+    for(let i = 0; i < 2; i++) {
+        currentToDoEl = currentToDoEl.parentElement;
+    }
+    let toDoID = +currentToDoEl.dataset.id;
+
+    let toDoToEdit = activeProject.getToDo(toDoID);
+    this.classList.remove(toDoToEdit.priority + "Priority");
+    toDoToEdit.rotatePriority();
+
+    let newClassName = toDoToEdit.priority + "Priority";
+    this.classList.add(newClassName);
+    console.log(activeProject.getAllToDos());
+}
+
 function toggleCollapseExpand(e) {
     this.classList.toggle("collapseBtnRotate");
     let currentToDo = this.parentElement.parentElement.parentElement;
@@ -114,6 +130,10 @@ allToDos.forEach(eachToDo => {
 
     let titleEditor = toDoRow.querySelector(".titleEditBtn");
     titleEditor.addEventListener("click", editToDoTitle);
+
+    let priorityEditor = currentToDo.getElementsByClassName("toDoIcon")[1];
+    priorityEditor.addEventListener("click", editToDoPriority);
+    priorityEditor.classList.add(eachToDo.priority + "Priority");
 
     let descriptionEditor = toDoRow.querySelector(".descriptionEditBtn");
     descriptionEditor.addEventListener("click", editToDoDescription);

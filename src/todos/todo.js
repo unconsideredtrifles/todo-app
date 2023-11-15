@@ -99,6 +99,7 @@ class Project {
 
 
 class ToDo {
+    static priorities = ["low", "medium", "high"];
     static nextToDoID = 0;
     #dueDate;
 
@@ -112,6 +113,15 @@ class ToDo {
         this.parentTodo = parentTodo;
         this.childTodo = childTodo;
 
+    }
+
+    rotatePriority() {
+        let priorityIdx = ToDo.priorities.indexOf(this.priority);
+        priorityIdx++
+        if(priorityIdx >= ToDo.priorities.length) {
+            priorityIdx = 0;
+        }
+        this.priority = ToDo.priorities[priorityIdx];
     }
 
     get dueDate() {

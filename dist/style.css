@@ -162,8 +162,16 @@ button {
     width: 2.3rem;
 }
 
-.priority {
+.lowPriority {
     fill: #00ff00;
+}
+
+.mediumPriority {
+    fill: #5f5fff;
+}
+
+.highPriority {
+    fill: #df5757;
 }
 
 .titleEditBtn {
