@@ -100,6 +100,48 @@ function toggleCollapseExpand(e) {
     moreInfo.classList.toggle("toDoExpand");
 }
 
+function displayToDo(todo) {
+    let toDoRow = toDoTemplate.content.cloneNode(true);
+
+    let toDoRowEl = toDoRow.querySelector(".toDoRow");
+    toDoRowEl.dataset.id = todo.toDoID;
+
+    let toDoCheckBtn = toDoRowEl.getElementsByClassName("toDoCheckbox")[0];
+    toDoCheckBtn.addEventListener("click", markToDoAsFinished);
+
+    let toDoTitle = toDoRowEl.getElementsByClassName("toDoTitle")[0];
+    toDoTitle.textContent = todo.title;
+
+    let moreInfo = toDoRowEl.getElementsByClassName("toDoMoreInfo")[0];
+    let toDoDescription = moreInfo.getElementsByClassName("toDoDescription")[0];
+    let toDoDate = moreInfo.getElementsByClassName("toDoDate")[0];
+    toDoDescription.textContent = todo.description;
+    toDoDate.addEventListener("input", editToDoDate);
+    toDoDate.setAttribute("value", todo.dueDate);
+
+    let titleEditor = toDoRowEl.getElementsByClassName("titleEditBtn")[0];
+    titleEditor.addEventListener("click", makeTitleEditable);
+
+    let priorityEditor = toDoRowEl.getElementsByClassName("toDoIcon")[1];
+    priorityEditor.addEventListener("click", editToDoPriority);
+    priorityEditor.classList.add(todo.priority + "Priority");
+
+    let deleteBtn = toDoRowEl.getElementsByClassName("deleteBtn")[0];
+    deleteBtn.addEventListener("click", deleteToDo);
+
+    let descrEditor = toDoRowEl.getElementsByClassName("descriptionEditBtn")[0];
+    descrEditor.addEventListener("click", makeDescriptionEditable);
+
+    let collapseBtn = toDoRowEl.getElementsByClassName("collapseBtn")[0];
+    collapseBtn.addEventListener("click", toggleCollapseExpand);
+    toDoContainer.appendChild(toDoRow);
+
+    let separator = new DOMTree(toDoContainer, {
+        name: "div",
+        class: "toDoSeparator",
+    });
+}
+
 let hamburgerBtn = document.getElementById("hamburger");
 let openIcon = document.getElementById("openIcon");
 let closeIcon = document.getElementById("closeIcon");
@@ -121,45 +163,6 @@ let activeProject = projectTracker.getActiveProject();
 let allToDos = activeProject.getAllToDos();
 
 let toDoContainer = document.getElementById("toDoDisplay");
-allToDos.forEach(eachToDo => {
-    let toDoTemplate = document.getElementById("toDoRowTemplate");
-    let toDoRow = toDoTemplate.content.cloneNode(true);
+let toDoTemplate = document.getElementById("toDoRowTemplate");
 
-    let toDoRowEl = toDoRow.querySelector(".toDoRow");
-    toDoRowEl.dataset.id = eachToDo.toDoID;
-
-    let toDoCheckBtn = toDoRowEl.getElementsByClassName("toDoCheckbox")[0];
-    toDoCheckBtn.addEventListener("click", markToDoAsFinished);
-
-    let toDoTitle = toDoRowEl.getElementsByClassName("toDoTitle")[0];
-    toDoTitle.textContent = eachToDo.title;
-
-    let moreInfo = toDoRowEl.getElementsByClassName("toDoMoreInfo")[0];
-    let toDoDescription = moreInfo.getElementsByClassName("toDoDescription")[0];
-    let toDoDate = moreInfo.getElementsByClassName("toDoDate")[0];
-    toDoDescription.textContent = eachToDo.description;
-    toDoDate.addEventListener("input", editToDoDate);
-    toDoDate.setAttribute("value", eachToDo.dueDate);
-
-    let titleEditor = toDoRowEl.getElementsByClassName("titleEditBtn")[0];
-    titleEditor.addEventListener("click", makeTitleEditable);
-
-    let priorityEditor = toDoRowEl.getElementsByClassName("toDoIcon")[1];
-    priorityEditor.addEventListener("click", editToDoPriority);
-    priorityEditor.classList.add(eachToDo.priority + "Priority");
-
-    let deleteBtn = toDoRowEl.getElementsByClassName("deleteBtn")[0];
-    deleteBtn.addEventListener("click", deleteToDo);
-
-    let descrEditor = toDoRowEl.getElementsByClassName("descriptionEditBtn")[0];
-    descrEditor.addEventListener("click", makeDescriptionEditable);
-
-    let collapseBtn = toDoRowEl.getElementsByClassName("collapseBtn")[0];
-    collapseBtn.addEventListener("click", toggleCollapseExpand);
-    toDoContainer.appendChild(toDoRow);
-
-    let separator = new DOMTree(toDoContainer, {
-        name: "div",
-        class: "toDoSeparator",
-    });
-});
+allToDos.forEach(displayToDo);
