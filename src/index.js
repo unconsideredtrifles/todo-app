@@ -112,33 +112,33 @@ allToDos.forEach(eachToDo => {
     let toDoTemplate = document.getElementById("toDoRowTemplate");
     let toDoRow = toDoTemplate.content.cloneNode(true);
 
-    let currentToDo = toDoRow.querySelector(".toDoRow");
-    currentToDo.dataset.id = eachToDo.toDoID;
+    let toDoRowEl = toDoRow.querySelector(".toDoRow");
+    toDoRowEl.dataset.id = eachToDo.toDoID;
 
-    let toDoCheckBtn = toDoRow.querySelector(".toDoCheckbox");
+    let toDoCheckBtn = toDoRowEl.getElementsByClassName("toDoCheckbox")[0];
     toDoCheckBtn.addEventListener("click", markToDoAsFinished);
 
-    let toDoTitle = toDoRow.querySelector(".toDoTitle");
+    let toDoTitle = toDoRowEl.getElementsByClassName("toDoTitle")[0];
     toDoTitle.textContent = eachToDo.title;
 
-    let moreInfo = toDoRow.querySelector(".toDoMoreInfo");
+    let moreInfo = toDoRowEl.getElementsByClassName("toDoMoreInfo")[0];
     let toDoDescription = moreInfo.getElementsByClassName("toDoDescription")[0];
     let toDoDate = moreInfo.getElementsByClassName("toDoDate")[0];
     toDoDescription.textContent = eachToDo.description;
     toDoDate.addEventListener("input", editToDoDate);
     toDoDate.setAttribute("value", eachToDo.dueDate);
 
-    let titleEditor = toDoRow.querySelector(".titleEditBtn");
+    let titleEditor = toDoRowEl.getElementsByClassName("titleEditBtn")[0];
     titleEditor.addEventListener("click", editToDoTitle);
 
-    let priorityEditor = currentToDo.getElementsByClassName("toDoIcon")[1];
+    let priorityEditor = toDoRowEl.getElementsByClassName("toDoIcon")[1];
     priorityEditor.addEventListener("click", editToDoPriority);
     priorityEditor.classList.add(eachToDo.priority + "Priority");
 
-    let descriptionEditor = toDoRow.querySelector(".descriptionEditBtn");
-    descriptionEditor.addEventListener("click", editToDoDescription);
+    let descrEditor = toDoRowEl.getElementsByClassName("descriptionEditBtn")[0];
+    descrEditor.addEventListener("click", editToDoDescription);
 
-    let collapseBtn = toDoRow.querySelector(".collapseBtn");
+    let collapseBtn = toDoRowEl.getElementsByClassName("collapseBtn")[0];
     collapseBtn.addEventListener("click", toggleCollapseExpand);
     toDoContainer.appendChild(toDoRow);
 
