@@ -14,7 +14,8 @@ class ToDoDate {
         let isoDatePart = isoDateStr.split("T")[0];
         let isoDatePartArr = isoDatePart.split("-");
         isoDatePartArr[1] = isoDatePartArr[1].padStart(2, "0");
-        isoDatePartArr[2] = isoDatePartArr[2].padStart(2, "0");
+        let day = Number(isoDatePartArr[2]) + 1; // Make up for timzone offset
+        isoDatePartArr[2] = day.toString().padStart(2, "0");
         return isoDatePartArr.join("-");
     }
 
