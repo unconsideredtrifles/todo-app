@@ -30,8 +30,9 @@ function editToDo(e, elementToEdit, toDoProp, toDoID) {
             toDoToEdit[toDoProp] = e.target.textContent;
             e.target.removeAttribute("contenteditable");
             console.log(activeProject);
+        } else if (e.key === "Escape") {
+            e.target.removeAttribute("contenteditable");
         }
-
     })
     elementToEdit.focus();
 }
