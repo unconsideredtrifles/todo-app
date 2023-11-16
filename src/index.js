@@ -16,7 +16,7 @@ function markToDoAsFinished(e) {
         date.classList.toggle("strikedOutDate");
 }
 
-function editToDo(e, elementToEdit, toDoProp, toDoID) {
+function makeContentEditable(e, elementToEdit, toDoID, toDoProp) {
     elementToEdit.setAttribute("contenteditable", "true");
     elementToEdit.addEventListener("keydown", e => {
         if((!e.ctrlKey) && (!["Enter", "Escape", "Backspace"].includes(e.key)) 
@@ -37,20 +37,20 @@ function editToDo(e, elementToEdit, toDoProp, toDoID) {
     elementToEdit.focus();
 }
 
-function editToDoTitle(e) {
+function makeTitleEditable(e) {
     let toDoTopRow = this.parentElement.parentElement;
     let toDoTitle = toDoTopRow.children[0].children[1];
     let toDoID = +toDoTopRow.parentElement.dataset.id;
 
-    editToDo(e, toDoTitle, "title", toDoID);
+    makeContentEditable(e, toDoTitle, toDoID, "title");
 }
 
-function editToDoDescription(e) {
+function makeDescriptionEditable(e) {
     let toDoDescription = this.parentElement.children[0]
     let toDo = this.parentElement.parentElement.parentElement
     let toDoID = +toDo.dataset.id;
 
-    editToDo(e, toDoDescription, "description", toDoID);
+    makeContentEditable(e, toDoDescription, toDoID, "description");
 }
 
 function editToDoDate(e) {
@@ -130,14 +130,14 @@ allToDos.forEach(eachToDo => {
     toDoDate.setAttribute("value", eachToDo.dueDate);
 
     let titleEditor = toDoRowEl.getElementsByClassName("titleEditBtn")[0];
-    titleEditor.addEventListener("click", editToDoTitle);
+    titleEditor.addEventListener("click", makeTitleEditable);
 
     let priorityEditor = toDoRowEl.getElementsByClassName("toDoIcon")[1];
     priorityEditor.addEventListener("click", editToDoPriority);
     priorityEditor.classList.add(eachToDo.priority + "Priority");
 
     let descrEditor = toDoRowEl.getElementsByClassName("descriptionEditBtn")[0];
-    descrEditor.addEventListener("click", editToDoDescription);
+    descrEditor.addEventListener("click", makeDescriptionEditable);
 
     let collapseBtn = toDoRowEl.getElementsByClassName("collapseBtn")[0];
     collapseBtn.addEventListener("click", toggleCollapseExpand);
