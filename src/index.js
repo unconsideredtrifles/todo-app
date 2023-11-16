@@ -53,26 +53,23 @@ function makeDescriptionEditable(e) {
     makeContentEditable(e, toDoDescription, toDoID, "description");
 }
 
-function editToDoDate(e) {
-    let currentToDoEl = this.parentElement;
+function getToDoToEdit(element) {
+    let currentToDoEl = element.parentElement;
     for(let i = 0; i < 2; i++) {
         currentToDoEl = currentToDoEl.parentElement;
     }
     let toDoID = +currentToDoEl.dataset.id;
+    return activeProject.getToDo(toDoID);
+}
 
-    let toDoToEdit = activeProject.getToDo(toDoID);
+function editToDoDate(e) {
+    let toDoToEdit = getToDoToEdit(this);
     toDoToEdit.dueDate = e.target.value;
     console.log(activeProject.getAllToDos());
 }
 
 function editToDoPriority(e) {
-    let currentToDoEl = this.parentElement;
-    for(let i = 0; i < 2; i++) {
-        currentToDoEl = currentToDoEl.parentElement;
-    }
-    let toDoID = +currentToDoEl.dataset.id;
-
-    let toDoToEdit = activeProject.getToDo(toDoID);
+    let toDoToEdit = getToDoToEdit(this);
     this.classList.remove(toDoToEdit.priority + "Priority");
     toDoToEdit.rotatePriority();
 
