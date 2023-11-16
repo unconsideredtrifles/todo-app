@@ -78,6 +78,21 @@ function editToDoPriority(e) {
     console.log(activeProject.getAllToDos());
 }
 
+function deleteToDo(e) {
+    let toDoToEdit = getToDoToEdit(this);
+    activeProject.removeToDo(toDoToEdit.toDoID);
+
+    let currentToDoEl = this.parentElement;
+    for(let i = 0; i < 2; i++) {
+        currentToDoEl = currentToDoEl.parentElement;
+    }
+    
+    let separatorToRemove = currentToDoEl.nextElementSibling;
+    currentToDoEl.parentElement.removeChild(separatorToRemove);
+    currentToDoEl.parentElement.removeChild(currentToDoEl);
+    console.log(activeProject.getAllToDos());
+}
+
 function toggleCollapseExpand(e) {
     this.classList.toggle("collapseBtnRotate");
     let currentToDo = this.parentElement.parentElement.parentElement;
@@ -132,6 +147,9 @@ allToDos.forEach(eachToDo => {
     let priorityEditor = toDoRowEl.getElementsByClassName("toDoIcon")[1];
     priorityEditor.addEventListener("click", editToDoPriority);
     priorityEditor.classList.add(eachToDo.priority + "Priority");
+
+    let deleteBtn = toDoRowEl.getElementsByClassName("deleteBtn")[0];
+    deleteBtn.addEventListener("click", deleteToDo);
 
     let descrEditor = toDoRowEl.getElementsByClassName("descriptionEditBtn")[0];
     descrEditor.addEventListener("click", makeDescriptionEditable);
