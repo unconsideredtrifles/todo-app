@@ -75,6 +75,8 @@ function editToDoPriority(e) {
 
     let newClassName = toDoToEdit.priority + "Priority";
     this.classList.add(newClassName);
+    let hoverText = this.getElementsByTagName("title")[0];
+    hoverText.textContent = toDoToEdit.priority + " priority";
     console.log(activeProject.getAllToDos());
 }
 
@@ -125,6 +127,8 @@ function displayToDo(todo) {
     let priorityEditor = toDoRowEl.getElementsByClassName("toDoIcon")[1];
     priorityEditor.addEventListener("click", editToDoPriority);
     priorityEditor.classList.add(todo.priority + "Priority");
+    let priorityHoverText = priorityEditor.getElementsByTagName("title")[0];
+    priorityHoverText.textContent = todo.priority + " priority";
 
     let deleteBtn = toDoRowEl.getElementsByClassName("deleteBtn")[0];
     deleteBtn.addEventListener("click", deleteToDo);

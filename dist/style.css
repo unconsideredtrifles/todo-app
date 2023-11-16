@@ -174,6 +174,10 @@ button {
     fill: #df5757;
 }
 
+.lowPriority, .mediumPriority, .highPriority {
+    cursor: pointer;
+}
+
 .titleEditBtn {
     fill: #5f5fff;
     cursor: pointer;
