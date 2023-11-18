@@ -15,11 +15,11 @@ function markToDoAsFinished(e) {
         date.classList.toggle("strikedOutDate");
 }
 
-function makeContentEditable(e, elementToEdit, toDoID, toDoProp) {
+function makeContentEditable(e, elementToEdit, toDoID, toDoProp, maxTextLen) {
     elementToEdit.setAttribute("contenteditable", "true");
     elementToEdit.addEventListener("keydown", e => {
         if((!e.ctrlKey) && (!["Enter", "Escape", "Backspace"].includes(e.key)) 
-            && e.target.textContent.length >= 30) {
+            && e.target.textContent.length >= maxTextLen) {
             e.preventDefault();
             return;
         }
@@ -41,7 +41,7 @@ function makeTitleEditable(e) {
     let toDoTitle = toDoTopRow.children[0].children[1];
     let toDoID = +toDoTopRow.parentElement.dataset.id;
 
-    makeContentEditable(e, toDoTitle, toDoID, "title");
+    makeContentEditable(e, toDoTitle, toDoID, "title", 30);
 }
 
 function makeDescriptionEditable(e) {
@@ -49,7 +49,7 @@ function makeDescriptionEditable(e) {
     let toDo = this.parentElement.parentElement.parentElement
     let toDoID = +toDo.dataset.id;
 
-    makeContentEditable(e, toDoDescription, toDoID, "description");
+    makeContentEditable(e, toDoDescription, toDoID, "description", 100);
 }
 
 function getToDoToEdit(element) {
