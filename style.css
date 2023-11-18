@@ -185,6 +185,7 @@ form, button {
 
 .deleteBtn {
     fill: #df5757;
+    cursor: pointer;
 }
 
 .collapseBtn {
