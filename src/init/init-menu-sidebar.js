@@ -54,6 +54,12 @@ function addProjectItem() {
 }
 
 
+function setCurrentProject(e) {
+    let projectName = this.getElementsByClassName("projectItemText")[0];
+    projectTracker.setActiveProject(projectName.textContent);
+}
+
+
 let projectMenu = document.createElement("div");
 projectMenu.classList.add("projectMenu");
 
@@ -91,6 +97,7 @@ allProjects.forEach(eachProject => {
     let menuItem = new DOMTree(menuItemList.getRootElement(), {
         name: "li",
         class: "projectItem",
+        listener: ["click", setCurrentProject],
     });
     menuItem.addChild(getProjectIcon());
     menuItem.addElements([
@@ -103,6 +110,8 @@ allProjects.forEach(eachProject => {
 });
 
 export {
-    projectMenu
+    projectMenu,
+    projectTracker,
+    ToDo,
 };
 
