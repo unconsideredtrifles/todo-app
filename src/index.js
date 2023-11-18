@@ -1,5 +1,4 @@
-import { projectMenu } from "./init/init-menu-sidebar.js";
-import { ToDo, projectTracker} from "./todos/todo.js";
+import { projectMenu, projectTracker, ToDo } from "./init/init-menu-sidebar.js";
 import { DOMTree } from "./misc/util.js";
 
 function markToDoAsFinished(e) {
@@ -26,10 +25,10 @@ function makeContentEditable(e, elementToEdit, toDoID, toDoProp) {
         }
 
         if(e.key === "Enter") {
-            let toDoToEdit = activeProject.getToDo(toDoID)
+            let toDoToEdit = ToDoUI.activeProject.getToDo(toDoID)
             toDoToEdit[toDoProp] = e.target.textContent;
             e.target.removeAttribute("contenteditable");
-            console.log(activeProject);
+            console.log(ToDoUI.activeProject);
         } else if (e.key === "Escape") {
             e.target.removeAttribute("contenteditable");
         }
@@ -59,14 +58,14 @@ function getToDoToEdit(element) {
         currentToDoEl = currentToDoEl.parentElement;
     }
     let toDoID = +currentToDoEl.dataset.id;
-    return activeProject.getToDo(toDoID);
+    return ToDoUI.activeProject.getToDo(toDoID);
 }
 
 function editToDoDate(e) {
     let toDoToEdit = getToDoToEdit(this);
     console.log(e.target.value);
     toDoToEdit.dueDate = e.target.value;
-    console.log(activeProject.getAllToDos());
+    console.log(ToDoUI.activeProject.getAllToDos());
 }
 
 function editToDoPriority(e) {
@@ -78,12 +77,12 @@ function editToDoPriority(e) {
     this.classList.add(newClassName);
     let hoverText = this.getElementsByTagName("title")[0];
     hoverText.textContent = toDoToEdit.priority + " priority";
-    console.log(activeProject.getAllToDos());
+    console.log(ToDoUI.activeProject.getAllToDos());
 }
 
 function deleteToDo(e) {
     let toDoToEdit = getToDoToEdit(this);
-    activeProject.removeToDo(toDoToEdit.toDoID);
+    ToDoUI.activeProject.removeToDo(toDoToEdit.toDoID);
 
     let currentToDoEl = this.parentElement;
     for(let i = 0; i < 2; i++) {
@@ -93,7 +92,7 @@ function deleteToDo(e) {
     let separatorToRemove = currentToDoEl.nextElementSibling;
     currentToDoEl.parentElement.removeChild(separatorToRemove);
     currentToDoEl.parentElement.removeChild(currentToDoEl);
-    console.log(activeProject.getAllToDos());
+    console.log(ToDoUI.activeProject.getAllToDos());
 }
 
 function toggleCollapseExpand(e) {
@@ -104,7 +103,7 @@ function toggleCollapseExpand(e) {
 }
 
 function displayToDo(todo) {
-    let toDoRow = toDoTemplate.content.cloneNode(true);
+    let toDoRow = toDoUI.itemTemplate.content.cloneNode(true);
 
     let toDoRowEl = toDoRow.querySelector(".toDoRow");
     toDoRowEl.dataset.id = todo.toDoID;
@@ -139,13 +138,89 @@ function displayToDo(todo) {
 
     let collapseBtn = toDoRowEl.getElementsByClassName("collapseBtn")[0];
     collapseBtn.addEventListener("click", toggleCollapseExpand);
-    toDoContainer.appendChild(toDoRow);
+    toDoUI.container.appendChild(toDoRow);
 
-    let separator = new DOMTree(toDoContainer, {
+    let separator = new DOMTree(toDoUI.container, {
         name: "div",
         class: "toDoSeparator",
     });
 }
+
+
+class ToDoUI {
+    static activeProject;
+
+    constructor(tracker) {
+        this.projectTracker = tracker;
+        this.#addMenu();
+        this.#initContainer();
+    }
+
+    #addMenu() {
+        document.body.appendChild(projectMenu);
+    }
+
+    #initContainer() {
+        this.container = document.getElementById("toDoDisplay");
+        this.itemTemplate = document.getElementById("toDoRowTemplate");
+    }
+
+    loadToDoItems() {
+        ToDoUI.activeProject = this.projectTracker.getActiveProject();
+        let allToDos = ToDoUI.activeProject.getAllToDos();
+
+        allToDos.forEach(displayToDo);
+    }
+
+}
+
+
+class Dialog {
+    contructor() {
+        this.dialogContainer = document.getElementById("toDoAdderDialog");
+        this.#registerOpenBtn();
+        this.#registerCloseBtn();
+        this.#registerSubmitBtn();
+    }
+
+    #registerOpenBtn() {
+        let addToDoBtn = document.getElementById("addToDoBtn");
+        addToDoBtn.addEventListener("click", e => {
+            this.dialogContainer.showModal();
+        });
+    }
+
+    
+    #registerCloseBtn() {
+        let dialogCloseBtn = document.getElementById("dialogCloseBtn");
+        dialogCloseBtn.addEventListener("click", e => {
+            e.preventDefault();
+            this.dialogContainer.close();
+        });
+    }
+
+    #registerSubmitBtn() {
+        let submitToDoBtn = document.getElementById("toDoSubmitInput");
+        submitToDoBtn.addEventListener("click", e => {
+            e.preventDefault();
+
+            let toDoInputs = document.getElementsByClassName("toDoInput");
+            let toDoArgs = Array.from(toDoInputs).map(eachInput => {
+                return eachInput.value;
+            });
+            let toDoToAdd = new ToDo(...toDoArgs);
+            ToDoUI.activeProject.addToDo(toDoToAdd);
+            displayToDo(toDoToAdd);
+
+            this.dialogContainer.close();
+        });
+    }
+}
+
+
+let toDoUI = new ToDoUI(projectTracker);
+toDoUI.loadToDoItems();
+let dialog = new Dialog();
 
 let hamburgerBtn = document.getElementById("hamburger");
 let openIcon = document.getElementById("openIcon");
@@ -160,41 +235,4 @@ hamburgerBtn.addEventListener("click", e => {
         closeIcon.style.display = "inline";
     }
     projectMenu.classList.toggle("showProjectMenu");
-})
-
-document.body.appendChild(projectMenu);
-
-let activeProject = projectTracker.getActiveProject();
-let allToDos = activeProject.getAllToDos();
-
-let toDoContainer = document.getElementById("toDoDisplay");
-let toDoTemplate = document.getElementById("toDoRowTemplate");
-
-allToDos.forEach(displayToDo);
-
-let toDoDialog = document.getElementById("toDoAdderDialog");
-let addToDoBtn = document.getElementById("addToDoBtn");
-addToDoBtn.addEventListener("click", e => {
-    toDoDialog.showModal();
 });
-
-let dialogCloseBtn = document.getElementById("dialogCloseBtn");
-dialogCloseBtn.addEventListener("click", e => {
-    e.preventDefault();
-    toDoDialog.close();
-})
-
-let submitToDoBtn = document.getElementById("toDoSubmitInput");
-submitToDoBtn.addEventListener("click", e => {
-    e.preventDefault();
-
-    let toDoInputs = document.getElementsByClassName("toDoInput");
-    let toDoArgs = Array.from(toDoInputs).map(eachInput => {
-        return eachInput.value;
-    });
-    let toDoToAdd = new ToDo(...toDoArgs);
-    activeProject.addToDo(toDoToAdd);
-    displayToDo(toDoToAdd);
-
-    toDoDialog.close();
-})
