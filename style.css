@@ -1,5 +1,5 @@
-body, h1, h2, h3, h4, h5, h6, ul,
-button {
+body, h1, h2, h3, h4, h5, h6, p, ul,
+form, button {
     padding: 0;
     margin: 0;
 }
@@ -243,4 +243,176 @@ button {
 
 .finishedToDo + .toDoSeparator:not(:last-of-type) {
     border-width: 0px;
+}
+
+#toDoAdderDialog {
+    width: 35%;
+
+    border: none;
+    padding: 0.2rem 0.4rem 3rem 0.4rem;
+    margin-top: 3%;
+}
+
+#toDoAdderDialog::backdrop {
+    background-color: #000;
+    opacity: 0.4;
+}
+
+#dialogTopBar {
+    display: flex;
+    justify-content: flex-end;
+
+    margin-top: 0.1rem;
+    margin-right: 0.1rem;
+    margin-bottom: 3rem;
+}
+
+#dialogCloseBtn {
+    border: none;
+
+    font-size: 1.5rem;
+    background-color: transparent;
+}
+
+.toDoInputGroup {
+    position: relative;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.toDoInputGroup + .toDoInputGroup {
+    margin-top: 2rem;
+}
+
+#toDoTitleInput {
+    width: 100%;
+    height: 1.2rem;
+
+    border: none;
+    padding: 0.125rem 0.125rem 0.25rem;
+    font-size: inherit;
+}
+
+#toDoDescriptionInput {
+    display: block;
+    resize: none;
+
+    width: 100%;
+    border: none;
+    font-size: inherit;
+    font-family: inherit;
+}
+
+.toDoInput:focus-visible {
+    outline: none;
+}
+
+.formLabel {
+    position: absolute;
+    top: 0.125rem;
+
+    color: #888;
+    pointer-events: none;
+    transition: 0.2s all ease;
+
+    font-size: 1rem;
+}
+
+.toDoInput:focus + .formLabel,
+.toDoInput:valid + .formLabel {
+    top: -1rem;
+    font-size: 0.9rem;
+}
+
+.toDoInput:focus + .formLabel {
+    color: #5f5fff;
+}
+
+.formBar {
+    position: relative;
+    border-bottom: 1px solid #888;
+}
+
+.formBar::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -0.0625rem;
+
+    width: 0;
+    height: 0.125rem;
+    transition: 0.2s all ease;
+}
+
+.toDoInput:focus ~ .formBar::before {
+   background-color: #5f5fff;
+   left: 0;
+   width: 100%;
+}
+
+#toDoPriorityInput {
+    display: block;
+
+    height: 1.6rem;
+    width: 100%;
+    border: none;
+
+    font-size: 1rem;
+    background-color: transparent;
+}
+
+#toDoPriorityInput ~ .formLabel {
+    top: -1rem;
+
+    color: #888;
+    font-size: 1rem;
+}
+
+#toDoPriorityInput:focus ~ .formLabel {
+    color: #5f5fff;
+}
+
+#toDoPriorityInput:focus-visible {
+    outline: none;
+}
+
+#toDoPriorityInputGroup {
+    margin-top: 3rem;
+}
+
+#toDoDateInput {
+    display: block;
+}
+
+#toDoDateInput + .formLabel {
+    top: -1.5rem;
+    font-size: 1rem;
+}
+
+#toDoDateInput:focus + .formLabel {
+    color: #5f5fff;
+}
+
+#toDoDateInputGroup {
+    margin-top: 3.3rem;
+}
+
+
+#toDoSubmitInputGroup {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 3rem;
+}
+
+#toDoSubmitInput {
+    appearance: none;
+
+    width: 9rem;
+    border: none;
+    padding: 0.4rem 1rem;
+
+    color: #fff;
+    background-color: #5f5fff;
+    font-size: inherit;
 }
