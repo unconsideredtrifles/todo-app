@@ -64,6 +64,7 @@ function getToDoToEdit(element) {
 
 function editToDoDate(e) {
     let toDoToEdit = getToDoToEdit(this);
+    console.log(e.target.value);
     toDoToEdit.dueDate = e.target.value;
     console.log(activeProject.getAllToDos());
 }
@@ -170,3 +171,30 @@ let toDoContainer = document.getElementById("toDoDisplay");
 let toDoTemplate = document.getElementById("toDoRowTemplate");
 
 allToDos.forEach(displayToDo);
+
+let toDoDialog = document.getElementById("toDoAdderDialog");
+let addToDoBtn = document.getElementById("addToDoBtn");
+addToDoBtn.addEventListener("click", e => {
+    toDoDialog.showModal();
+});
+
+let dialogCloseBtn = document.getElementById("dialogCloseBtn");
+dialogCloseBtn.addEventListener("click", e => {
+    e.preventDefault();
+    toDoDialog.close();
+})
+
+let submitToDoBtn = document.getElementById("toDoSubmitInput");
+submitToDoBtn.addEventListener("click", e => {
+    e.preventDefault();
+
+    let toDoInputs = document.getElementsByClassName("toDoInput");
+    let toDoArgs = Array.from(toDoInputs).map(eachInput => {
+        return eachInput.value;
+    });
+    let toDoToAdd = new ToDo(...toDoArgs);
+    activeProject.addToDo(toDoToAdd);
+    displayToDo(toDoToAdd);
+
+    toDoDialog.close();
+})

@@ -55,5 +55,39 @@
         </div>
     </template>
 
+    <dialog id="toDoAdderDialog">
+        <form id="toDoAdderForm">
+            <p id="dialogTopBar">
+                <button id="dialogCloseBtn">&#x2715;</button>
+            </p>
+            <div class="toDoInputGroup" class="toDoInput">
+                <input required autofocus type="text" id="toDoTitleInput" class="toDoInput">
+                <label class="formLabel" for="toDoTitleInput">Title</label>
+                <div class="formBar"></div>
+            </div>
+            <div class="toDoInputGroup">
+                <textarea required id="toDoDescriptionInput" class="toDoInput"></textarea>
+                <label class="formLabel" for="toDoDescriptionInput">Description</label>
+                <div class="formBar"></div>
+            </div>
+            <div id="toDoPriorityInputGroup" class="toDoInputGroup">
+                <select id="toDoPriorityInput" class="toDoInput">
+                    <option value="low">low priority</option>
+                    <option value="medium">medium priority</option>
+                    <option value="low">high priority</option>
+                </select>
+                <label class="formLabel" for="toDoPriorityInput">Priority</label>
+                <div class="formBar"></div>
+            </div>
+            <div id="toDoDateInputGroup" class="toDoInputGroup">
+                <input id="toDoDateInput" class="toDoInput" type="date">
+                <label class="formLabel" for="toDoDateInput">Date</label>
+            </div>
+            <div id="toDoSubmitInputGroup" class="toDoInputGroup">
+                <button id="toDoSubmitInput">Submit</button>
+            </div>
+        </form>
+    </dialog>
+
 </body>
 </html>
