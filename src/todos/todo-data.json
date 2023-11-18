@@ -1,5 +1,5 @@
 {
-    "todos": [
+    "default": [
         [
             "Run Grocery",
             "Run Grocery at tomorrow",
@@ -23,6 +23,32 @@
             "Eat the pack of waffle in the fridge before getting expired",
             "low",
             "2023-11-06"
+        ]
+    ],
+    "work" : [
+        [
+            "Fix the UI Bug",
+            "Fix the pesky UI bug in the search bar",
+            "medium",
+            "2023-11-19"
+        ],
+        [
+            "Write monthly report",
+            "Write the monthly report for the team's performance",
+            "low",
+            "2023-11-30"
+        ],
+        [
+            "Meeting for planning",
+            "Meeting for the next phase of development",
+            "high",
+            "2023-11-30"
+        ],
+        [
+            "Give my coworker birthday's present",
+            "Give the birthday present for Jane Doe",
+            "low",
+            "2023-11-23"
         ]
     ]
 }

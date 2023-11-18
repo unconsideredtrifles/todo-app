@@ -158,9 +158,14 @@ projectTracker.addProject(defaultProject);
 projectTracker.setActiveProject(defaultProject.name);
 projectTracker.addProject(workProject);
 
-for(let eachToDoArg of toDoData.todos) {
+for(let eachToDoArg of toDoData.default) {
     let eachToDo = new ToDo(...eachToDoArg);
     defaultProject.addToDo(eachToDo);
+}
+
+for(let eachToDoArg of toDoData.work) {
+    let eachToDo = new ToDo(...eachToDoArg);
+    workProject.addToDo(eachToDo);
 }
 
 export {
