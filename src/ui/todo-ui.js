@@ -1,4 +1,4 @@
-import { projectTracker } from "../todos/todo.js";
+import { projectTracker, ToDo } from "../todos/todo.js";
 import {
     makeTitleEditable,
     makeDescriptionEditable,
@@ -97,12 +97,11 @@ class ToDoUI {
 
         allToDos.forEach(displayToDo);
     }
-
 }
 
 
 class Dialog {
-    contructor() {
+    constructor() {
         this.dialogContainer = document.getElementById("toDoAdderDialog");
         this.#registerOpenBtn();
         this.#registerCloseBtn();
