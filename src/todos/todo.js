@@ -89,6 +89,15 @@ class Project {
         return this.#toDoArr;
     }
 
+    toggleFinish(toDoID) {
+        let todo = this.getToDo(toDoID);
+        if(todo.finished) {
+            todo.finished = false;
+        } else {
+            todo.finished = true;
+        }
+    }
+
     removeToDo(toDoID) {
         let idx2Delete = this.#toDoArr.findIndex(
             eachToDo => eachToDo.toDoID === toDoID
@@ -113,7 +122,7 @@ class ToDo {
 
         this.parentTodo = parentTodo;
         this.childTodo = childTodo;
-
+        this.finished = false;
     }
 
     get priority() {

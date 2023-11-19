@@ -9,18 +9,26 @@ import {
 import { DOMTree } from "../misc/util.js";
 
 
-function markToDoAsFinished(e) {
-        let toDoTop = e.target.parentElement.parentElement;
+function addStrikedOutClasses(toDoEl) {
+        toDoEl.classList.toggle("finishedToDo");
+        let toDoTop = toDoEl.children[0];
         toDoTop.classList.toggle("strikedOutTitle");
 
-        let currentToDo = toDoTop.parentElement;
-        currentToDo.classList.toggle("finishedToDo");
-
-        let descr = currentToDo.getElementsByClassName("toDoDescription")[0];
+        let descr = toDoEl.getElementsByClassName("toDoDescription")[0];
         descr.classList.toggle("strikedOutDescription");
 
-        let date = currentToDo.getElementsByClassName("dueDate")[0];
+        let date = toDoEl.getElementsByClassName("dueDate")[0];
         date.classList.toggle("strikedOutDate");
+}
+
+
+function markToDoAsFinished(e) {
+        let toDoTop = e.target.parentElement.parentElement;
+        let toDoEl = toDoTop.parentElement;
+        addStrikedOutClasses(toDoEl);
+
+        let toDoID = +toDoEl.dataset.id;
+        let todo = ToDoUI.activeProject.toggleFinish(toDoID);
 }
 
 
@@ -40,6 +48,11 @@ function displayToDo(todo) {
 
     let toDoCheckBtn = toDoRowEl.getElementsByClassName("toDoCheckbox")[0];
     toDoCheckBtn.addEventListener("click", markToDoAsFinished);
+
+    if(todo.finished) {
+        toDoCheckBtn.setAttribute("checked", "true");
+        addStrikedOutClasses(toDoRowEl);
+    }
 
     let toDoTitle = toDoRowEl.getElementsByClassName("toDoTitle")[0];
     toDoTitle.textContent = todo.title;
