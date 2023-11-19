@@ -1,4 +1,5 @@
-import { projectMenu, projectTracker, ToDo } from "./init/init-menu-sidebar.js";
+import { projectTracker, ToDo } from "./todos/todo.js";
+import { projectMenu } from "./init/init-menu-sidebar.js";
 import { DOMTree } from "./misc/util.js";
 
 function markToDoAsFinished(e) {

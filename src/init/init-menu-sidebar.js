@@ -111,7 +111,5 @@ allProjects.forEach(eachProject => {
 
 export {
     projectMenu,
-    projectTracker,
-    ToDo,
 };
 
