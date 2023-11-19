@@ -91,6 +91,7 @@ class ToDoUI {
     }
 
     loadToDoItems() {
+        this.container.textContent = "";
         ToDoUI.activeProject = this.projectTracker.activeProject;
         let allToDos = ToDoUI.activeProject.getAllToDos();
 
