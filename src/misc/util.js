@@ -11,22 +11,25 @@ class DOMTree {
     #rootElement;
 
     constructor(parent, rootElement) {
-        this.#rootElement = document.createElement(rootElement.name);
-        this.#rootElement.classList.add(rootElement.class)
+        this.#rootElement = this.initElement(rootElement);
         parent.appendChild(this.#rootElement);
     }
 
     addElements(elements) {
         elements.forEach(eachElement => {
-            let element = document.createElement(eachElement.name);
-            element.classList.add(eachElement.class);
-            element.textContent = eachElement.content;
-            if("listener" in eachElement) {
-                element.addEventListener(...eachElement.listener);
-            }
-
+            let element = this.initElement(eachElement)
             this.#rootElement.appendChild(element);
         });
+    }
+
+    initElement(elementObj) {
+        let element = document.createElement(elementObj.name);
+        element.classList.add(elementObj.class);
+        element.textContent = elementObj.content;
+        if("listener" in elementObj) {
+            element.addEventListener(...elementObj.listener);
+        }
+        return element;
     }
 
     getRootElement() {
