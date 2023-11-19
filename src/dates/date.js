@@ -10,13 +10,11 @@ class ToDoDate {
     }
 
     getDateStr() {
-        let isoDateStr = this.#date.toISOString();
-        let isoDatePart = isoDateStr.split("T")[0];
-        let isoDatePartArr = isoDatePart.split("-");
-        isoDatePartArr[1] = isoDatePartArr[1].padStart(2, "0");
-        let day = Number(isoDatePartArr[2]) + 1; // Make up for timzone offset
-        isoDatePartArr[2] = day.toString().padStart(2, "0");
-        return isoDatePartArr.join("-");
+        let year = this.#date.getFullYear();
+        let month = (this.#date.getMonth() + 1).toString();
+        let day = (this.#date.getDate()).toString();
+
+        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
     }
 
     static convertToDateArgs(dateStr) {
