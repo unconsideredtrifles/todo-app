@@ -31,11 +31,11 @@ class ProjectTracker {
         this.#allProjects.splice(idx2Delete, 1);
     }
 
-    getActiveProject() {
+    get activeProject() {
         return this.#currentProject;
     }
 
-    setActiveProject(projectName) {
+    set activeProject(projectName) {
         for(let eachProject of this.#allProjects) {
             if(eachProject.name === projectName) {
                 this.#currentProject = eachProject;
@@ -155,7 +155,7 @@ let workProject = new Project("work");
 
 let projectTracker = new ProjectTracker();
 projectTracker.addProject(defaultProject);
-projectTracker.setActiveProject(defaultProject.name);
+projectTracker.activeProject = defaultProject.name;
 projectTracker.addProject(workProject);
 
 for(let eachToDoArg of toDoData.default) {

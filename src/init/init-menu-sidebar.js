@@ -1,5 +1,6 @@
 import { projectTracker, Project, ToDo } from "../todos/todo.js";
 import { DOMTree } from "../misc/util.js";
+import { toDoUI } from "../ui/todo-ui.js";
 import "./style.css";
 
 
@@ -56,7 +57,8 @@ function addProjectItem() {
 
 function setCurrentProject(e) {
     let projectName = this.getElementsByClassName("projectItemText")[0];
-    projectTracker.setActiveProject(projectName.textContent);
+    projectTracker.activeProject = projectName.textContent;
+    toDoUI.loadToDoItems();
 }
 
 
@@ -109,7 +111,20 @@ allProjects.forEach(eachProject => {
     ]);
 });
 
-export {
-    projectMenu,
-};
 
+let hamburgerBtn = document.getElementById("hamburger");
+let openIcon = document.getElementById("openIcon");
+let closeIcon = document.getElementById("closeIcon");
+
+hamburgerBtn.addEventListener("click", e => {
+    if(projectMenu.classList.contains("showProjectMenu")) {
+        openIcon.style.display = "inline";
+        closeIcon.style.display = "none";
+    } else {
+        openIcon.style.display = "none";
+        closeIcon.style.display = "inline";
+    }
+    projectMenu.classList.toggle("showProjectMenu");
+});
+
+document.body.appendChild(projectMenu);
