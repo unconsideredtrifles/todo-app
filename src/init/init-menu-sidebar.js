@@ -114,7 +114,7 @@ function initProjectItem() {
 }
 
 
-function setCurrentProject(e) {
+function setActiveProject(e) {
     let projectName = this.getElementsByClassName("projectItemText")[0];
     projectTracker.activeProject = projectName.textContent;
     toDoUI.loadToDoItems();
@@ -158,7 +158,7 @@ allProjects.forEach(eachProject => {
     let menuItem = new DOMTree(menuItemList.getRootElement(), {
         name: "li",
         class: "projectItem",
-        listener: ["click", setCurrentProject],
+        listener: ["click", setActiveProject],
     });
     menuItem.addChild(getProjectIcon());
     menuItem.addElements([
