@@ -11,19 +11,6 @@ function getProjectIcon()  {
 }
 
 
-class ProjectRenamer {
-    constructor(currentName) {
-        this.currentName = currentName;
-    }
-
-    handleEvent(e) {
-        if(editProjectName(e)) {
-            projectTracker.renameProject(this.currentName, e.target.textContent);
-        }
-    }
-}
-
-
 function getProjectBtns() {
     let projectIconTemplate = document.getElementById("projectIconTemplate");
     let iconTemplateNode = projectIconTemplate.content.cloneNode(true);
@@ -67,13 +54,6 @@ function cancelNameAddBox(e) {
 }
 
 
-function setCurrentProject(e) {
-    let projectName = this.getElementsByClassName("projectItemText")[0];
-    projectTracker.activeProject = projectName.textContent;
-    toDoUI.loadToDoItems();
-}
-
-
 function editProjectName(e) {
     if(!(e.ctrlKey) && !(["Backspace", "Enter"].includes(e.key))
             && e.target.textContent.length >= 20) {
@@ -88,6 +68,19 @@ function editProjectName(e) {
 
     if(e.key === "Escape") {
         cancelNameAddBox(e);
+    }
+}
+
+
+class ProjectRenamer {
+    constructor(currentName) {
+        this.currentName = currentName;
+    }
+
+    handleEvent(e) {
+        if(editProjectName(e)) {
+            projectTracker.renameProject(this.currentName, e.target.textContent);
+        }
     }
 }
 
@@ -118,6 +111,13 @@ function initProjectItem() {
     projectItem.addChild(getProjectBtns());
 
     projectNameAddBox.focus();
+}
+
+
+function setCurrentProject(e) {
+    let projectName = this.getElementsByClassName("projectItemText")[0];
+    projectTracker.activeProject = projectName.textContent;
+    toDoUI.loadToDoItems();
 }
 
 
