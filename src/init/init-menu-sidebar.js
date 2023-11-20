@@ -86,6 +86,7 @@ class ProjectRenamer {
         }
 
         if(editProjectName(e)) {
+            this.projectNameEl.removeEventListener("keydown", this);
             projectTracker.renameProject(this.currentName, e.target.textContent);
         }
     }
