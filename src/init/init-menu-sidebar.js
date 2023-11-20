@@ -19,7 +19,7 @@ function getProjectBtns() {
     let editBtn = projectBtns.getElementsByClassName("projectEditBtn")[0];
     let delBtn = projectBtns.getElementsByClassName("projectDelBtn")[0];
 
-    editBtn.addEventListener("click", function() {
+    editBtn.addEventListener("click", function(e) {
         let projectItem = this.parentElement.parentElement;
 
         let className = "projectItemText";
@@ -30,6 +30,8 @@ function getProjectBtns() {
         let projectRenamer = new ProjectRenamer(projectItemText);
         projectItemText.addEventListener("keydown", projectRenamer);
         projectItemText.focus();
+
+        e.stopPropagation();
     });
 
     delBtn.addEventListener("click", function() {
