@@ -11,6 +11,55 @@ function getProjectIcon()  {
 }
 
 
+class ProjectRenamer {
+    constructor(currentName) {
+        this.currentName = currentName;
+    }
+
+    handleEvent(e) {
+        if(editProjectName(e)) {
+            projectTracker.renameProject(this.currentName, e.target.textContent);
+        }
+    }
+}
+
+
+function getProjectBtns() {
+    let projectIconTemplate = document.getElementById("projectIconTemplate");
+    let iconTemplateNode = projectIconTemplate.content.cloneNode(true);
+
+    let projectBtns = iconTemplateNode.querySelector(".projectBtns");
+    let editBtn = projectBtns.getElementsByClassName("projectEditBtn")[0];
+    let delBtn = projectBtns.getElementsByClassName("projectDelBtn")[0];
+
+    editBtn.addEventListener("click", function() {
+        let projectItem = this.parentElement.parentElement;
+
+        let className = "projectItemText";
+        let projectItemText = projectItem.getElementsByClassName(className)[0];
+
+        projectItemText.setAttribute("contenteditable", true);
+
+        let projectRenamer = new ProjectRenamer(projectItemText.textContent);
+        projectItemText.addEventListener("keydown", projectRenamer);
+        projectItemText.focus();
+    });
+
+    delBtn.addEventListener("click", function() {
+        let projectItem = this.parentElement.parentElement;
+        let itemText = projectItem.getElementsByClassName("projectItemText")[0];
+        projectTracker.removeProject(itemText.textContent);
+
+        projectItem.parentElement.removeChild(projectItem);
+        toDoUI.loadToDoItems();
+
+        console.log(projectTracker.getAllProjects());
+    });
+
+    return projectBtns;
+}
+
+
 function cancelNameAddBox(e) {
     let menuList = e.target.parentElement.parentElement;
     let menuListItem = e.target.parentElement;
@@ -18,7 +67,14 @@ function cancelNameAddBox(e) {
 }
 
 
-function setProjectName(e) {
+function setCurrentProject(e) {
+    let projectName = this.getElementsByClassName("projectItemText")[0];
+    projectTracker.activeProject = projectName.textContent;
+    toDoUI.loadToDoItems();
+}
+
+
+function editProjectName(e) {
     if(!(e.ctrlKey) && !(["Backspace", "Enter"].includes(e.key))
             && e.target.textContent.length >= 20) {
         e.preventDefault();
@@ -26,9 +82,8 @@ function setProjectName(e) {
 
     if(e.key === "Enter") {
         e.target.removeAttribute("contenteditable");
-        let projectToAdd = new Project(e.target.textContent);
-        projectTracker.addProject(projectToAdd);
         e.target.parentElement.style.backgroundColor = "";
+        return true;
     }
 
     if(e.key === "Escape") {
@@ -37,10 +92,19 @@ function setProjectName(e) {
 }
 
 
-function addProjectItem() {
+function addProjectItem(e) {
+    if(editProjectName(e)) {
+        let projectToAdd = new Project(this.textContent);
+        projectTracker.addProject(projectToAdd);
+    }
+}
+
+
+function initProjectItem() {
     let projectItem = new DOMTree(menuItemList.getRootElement(), {
         name: "li",
-        class: "projectItem"
+        class: "projectItem",
+        listener: ["click", setCurrentProject],
     });
     projectItem.getRootElement().style.backgroundColor = "#d8d8d8";
     projectItem.addChild(getProjectIcon());
@@ -49,16 +113,11 @@ function addProjectItem() {
     projectNameAddBox.classList.add("projectItemText");
     projectNameAddBox.setAttribute("contenteditable", "true");
     projectNameAddBox.setAttribute("spellcheck", "false");
-    projectNameAddBox.addEventListener("keydown", setProjectName);
+    projectNameAddBox.addEventListener("keydown", addProjectItem);
     projectItem.addChild(projectNameAddBox);
+    projectItem.addChild(getProjectBtns());
+
     projectNameAddBox.focus();
-}
-
-
-function setCurrentProject(e) {
-    let projectName = this.getElementsByClassName("projectItemText")[0];
-    projectTracker.activeProject = projectName.textContent;
-    toDoUI.loadToDoItems();
 }
 
 
@@ -75,7 +134,7 @@ menuHeader.addElements([
         name: "button", 
         class: "projectMenuHeaderBtn",
         content: "+",
-        listener: ["click", addProjectItem],
+        listener: ["click", initProjectItem],
     },
     {
         name: "div",
@@ -109,6 +168,7 @@ allProjects.forEach(eachProject => {
             content: eachProject.name,
         }
     ]);
+    menuItem.addChild(getProjectBtns());
 });
 
 

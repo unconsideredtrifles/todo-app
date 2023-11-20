@@ -24,7 +24,18 @@ class ProjectTracker {
         this.#allProjects.push(project);
     }
 
+    renameProject(currentName, newName) {
+        let proj = this.#allProjects.find(eachProject => {
+            return eachProject.name === currentName;
+        });
+        proj.name = newName;
+    }
+
     removeProject(projectName) {
+        if(this.activeProject && projectName === this.activeProject.name) {
+            this.activeProject = undefined;
+        }
+
         let idx2Delete = this.#allProjects.findIndex(eachProject => 
             eachProject.name === projectName
         );
@@ -36,6 +47,11 @@ class ProjectTracker {
     }
 
     set activeProject(projectName) {
+        if(projectName === undefined) {
+            this.#currentProject = undefined;
+            return;
+        }
+
         for(let eachProject of this.#allProjects) {
             if(eachProject.name === projectName) {
                 this.#currentProject = eachProject;

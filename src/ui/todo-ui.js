@@ -105,9 +105,13 @@ class ToDoUI {
 
     loadToDoItems() {
         this.container.textContent = "";
-        ToDoUI.activeProject = this.projectTracker.activeProject;
-        let allToDos = ToDoUI.activeProject.getAllToDos();
 
+        ToDoUI.activeProject = this.projectTracker.activeProject;
+        if(ToDoUI.activeProject === undefined) {
+            return;
+        }
+
+        let allToDos = ToDoUI.activeProject.getAllToDos();
         allToDos.forEach(displayToDo);
     }
 }
@@ -121,13 +125,20 @@ class Dialog {
         this.#registerSubmitBtn();
     }
 
+    #checkActiveProjectPresence() {
+        return ToDoUI.activeProject != undefined;
+    }
+
     #registerOpenBtn() {
         let addToDoBtn = document.getElementById("addToDoBtn");
         addToDoBtn.addEventListener("click", e => {
+            if(!this.#checkActiveProjectPresence()) {
+                return;
+            }
+
             this.dialogContainer.showModal();
         });
     }
-
     
     #registerCloseBtn() {
         let dialogCloseBtn = document.getElementById("dialogCloseBtn");
