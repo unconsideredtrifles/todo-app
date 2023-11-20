@@ -24,7 +24,9 @@ class DOMTree {
 
     initElement(elementObj) {
         let element = document.createElement(elementObj.name);
-        element.classList.add(elementObj.class);
+        for(let eachClass of elementObj.classes) {
+            element.classList.add(eachClass);
+        }
         element.textContent = elementObj.content;
         if("listener" in elementObj) {
             element.addEventListener(...elementObj.listener);

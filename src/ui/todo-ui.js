@@ -85,7 +85,7 @@ function displayToDo(todo) {
 
     let separator = new DOMTree(toDoUI.container, {
         name: "div",
-        class: "toDoSeparator",
+        classes: ["toDoSeparator"],
     });
 }
 
