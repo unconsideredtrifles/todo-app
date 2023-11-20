@@ -27,7 +27,7 @@ function getProjectBtns() {
 
         projectItemText.setAttribute("contenteditable", true);
 
-        let projectRenamer = new ProjectRenamer(projectItemText.textContent);
+        let projectRenamer = new ProjectRenamer(projectItemText);
         projectItemText.addEventListener("keydown", projectRenamer);
         projectItemText.focus();
     });
@@ -65,19 +65,21 @@ function editProjectName(e) {
         e.target.parentElement.style.backgroundColor = "";
         return true;
     }
-
-    if(e.key === "Escape") {
-        cancelNameAddBox(e);
-    }
 }
 
 
 class ProjectRenamer {
-    constructor(currentName) {
-        this.currentName = currentName;
+    constructor(projectNameEl) {
+        this.projectNameEl = projectNameEl;
+        this.currentName = this.projectNameEl.textContent;
     }
 
     handleEvent(e) {
+        if(e.key === "Escape") {
+            this.projectNameEl.removeAttribute("contenteditable");
+            return;
+        }
+
         if(editProjectName(e)) {
             projectTracker.renameProject(this.currentName, e.target.textContent);
         }
@@ -86,10 +88,15 @@ class ProjectRenamer {
 
 
 function addProjectItem(e) {
+    if(e.key === "Escape") {
+        cancelNameAddBox(e);
+        return;
+    }
+
     if(editProjectName(e)) {
         let projectToAdd = new Project(this.textContent);
         projectTracker.addProject(projectToAdd);
-    }
+    } 
 }
 
 
