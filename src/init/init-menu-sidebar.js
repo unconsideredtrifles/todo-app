@@ -111,7 +111,7 @@ function initProjectItem() {
     let projectItem = new DOMTree(menuItemList.getRootElement(), {
         name: "li",
         class: "projectItem",
-        listener: ["click", setCurrentProject],
+        listener: ["click", setActiveProject],
     });
     projectItem.getRootElement().style.backgroundColor = "#d8d8d8";
     projectItem.addChild(getProjectIcon());
