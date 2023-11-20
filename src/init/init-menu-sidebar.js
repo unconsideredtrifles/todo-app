@@ -153,6 +153,7 @@ let menuItemList = new DOMTree(projectMenu, {
     class: "projectMenuList",
 });
 
+
 let allProjects = projectTracker.getAllProjects();
 allProjects.forEach(eachProject => {
     let menuItem = new DOMTree(menuItemList.getRootElement(), {
