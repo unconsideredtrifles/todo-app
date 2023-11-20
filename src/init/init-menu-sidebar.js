@@ -71,18 +71,25 @@ function editProjectName(e) {
 class ProjectRenamer {
     constructor(projectNameEl) {
         this.projectNameEl = projectNameEl;
+        let exitRenameCallback = this.exitRenaming.bind(this);
+        this.projectNameEl.addEventListener("blur", exitRenameCallback);
+
         this.currentName = this.projectNameEl.textContent;
     }
 
     handleEvent(e) {
         if(e.key === "Escape") {
-            this.projectNameEl.removeAttribute("contenteditable");
+            this.exitRenaming();
             return;
         }
 
         if(editProjectName(e)) {
             projectTracker.renameProject(this.currentName, e.target.textContent);
         }
+    }
+
+    exitRenaming() {
+        this.projectNameEl.removeAttribute("contenteditable");
     }
 }
 
