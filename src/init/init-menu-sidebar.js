@@ -45,7 +45,11 @@ function getProjectBtns() {
         console.log(projectTracker.getAllProjects());
     });
 
-    return projectBtns;
+    return [
+        projectBtns,
+        editBtn,
+        delBtn,
+    ];
 }
 
 
@@ -113,7 +117,7 @@ function addProjectItem(e) {
 function initProjectItem() {
     let projectItem = new DOMTree(menuItemList.getRootElement(), {
         name: "li",
-        class: "projectItem",
+        classes: ["projectItem"],
         listener: ["click", setActiveProject],
     });
     projectItem.getRootElement().style.backgroundColor = "#d8d8d8";
@@ -125,7 +129,7 @@ function initProjectItem() {
     projectNameAddBox.setAttribute("spellcheck", "false");
     projectNameAddBox.addEventListener("keydown", addProjectItem);
     projectItem.addChild(projectNameAddBox);
-    projectItem.addChild(getProjectBtns());
+    projectItem.addChild(getProjectBtns()[0]);
 
     projectNameAddBox.focus();
 }
@@ -133,6 +137,23 @@ function initProjectItem() {
 
 function setActiveProject(e) {
     let projectName = this.getElementsByClassName("projectItemText")[0];
+    let projectItemList = this.parentElement.parentElement;
+
+    let activeItem = projectItemList.getElementsByClassName("activeProjectItem")[0];
+    activeItem.classList.remove("activeProjectItem");
+    let activeIcons = activeItem.getElementsByClassName("activeProjectIcon");
+    Array.from(activeIcons).forEach(eachIcon => {
+        eachIcon.classList.remove("activeProjectIcon");
+    });
+
+    let projectIcon = this.getElementsByClassName("projectIcon")[0];
+    let editBtn = this.getElementsByClassName("projectEditBtn")[0];
+    let delBtn = this.getElementsByClassName("projectDelBtn")[0];
+    projectIcon.classList.add("activeProjectIcon");
+    editBtn.classList.add("activeProjectIcon");
+    delBtn.classList.add("activeProjectIcon");
+    this.classList.add("activeProjectItem");
+
     projectTracker.activeProject = projectName.textContent;
     toDoUI.loadToDoItems();
 }
@@ -143,50 +164,73 @@ projectMenu.classList.add("projectMenu");
 
 let menuHeader = new DOMTree(projectMenu, {
     name: "div",
-    class: "projectMenuHeader",
+    classes: ["projectMenuHeader"],
 });
 
 menuHeader.addElements([
     { 
         name: "button", 
-        class: "projectMenuHeaderBtn",
+        classes: ["projectMenuHeaderBtn"],
         content: "+",
         listener: ["click", initProjectItem],
     },
     {
         name: "div",
-        class: "projectMenuHeaderText",
+        classes: ["projectMenuHeaderText"],
         content: "Projects",
     }
 ]);
 
 let menuSeparator = new DOMTree(projectMenu, {
     name: "div",
-    class: "projectMenuSeparator"
+    classes: ["projectMenuSeparator"],
 });
 
 let menuItemList = new DOMTree(projectMenu, {
     name: "ul",
-    class: "projectMenuList",
+    classes: ["projectMenuList"],
 });
 
 
 let allProjects = projectTracker.getAllProjects();
 allProjects.forEach(eachProject => {
+    let activeProject;
+    if(projectTracker.activeProject.name === eachProject.name) {
+        activeProject = true;
+    } else {
+        activeProject = false;
+    }
+
+    let menuItemClasses = ["projectItem"];
+    if(activeProject) {
+        menuItemClasses.push("activeProjectItem");
+    }
     let menuItem = new DOMTree(menuItemList.getRootElement(), {
         name: "li",
-        class: "projectItem",
+        classes: menuItemClasses,
         listener: ["click", setActiveProject],
     });
-    menuItem.addChild(getProjectIcon());
+
+    let projectIcon = getProjectIcon();
+    if(activeProject) {
+        projectIcon.classList.add("activeProjectIcon");
+    }
+    menuItem.addChild(projectIcon);
+
     menuItem.addElements([
         {
             name: "span",
-            class: "projectItemText",
+            classes: ["projectItemText"],
             content: eachProject.name,
         }
     ]);
-    menuItem.addChild(getProjectBtns());
+
+    let [projectBtns, editBtn, delBtn] = getProjectBtns();
+    if(activeProject) {
+        editBtn.classList.add("activeProjectIcon");
+        delBtn.classList.add("activeProjectIcon");
+    }
+    menuItem.addChild(projectBtns);
 });
 
 

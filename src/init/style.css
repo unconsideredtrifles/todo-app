@@ -96,3 +96,11 @@
     width: 1.8rem;
     fill: #df5757;
 }
+
+.activeProjectItem, .activeProjectItem:hover {
+    background-color: #8484ff;
+}
+
+.activeProjectIcon {
+    fill: #fff;
+}
