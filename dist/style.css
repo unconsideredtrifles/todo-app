@@ -147,7 +147,7 @@ form, button {
     font-weight: 800;
 }
 
-.toDoTitle:focus-visible {
+.toDoTitle[contenteditable=true]:focus-visible {
     outline: 1px solid #000;
     padding: 0.2rem;
 
@@ -222,7 +222,7 @@ form, button {
     margin-bottom: 0.8rem;
 }
 
-.toDoDescription:focus-visible {
+.toDoDescription[contenteditable=true]:focus-visible {
     outline: 1px solid #000;
     padding: 0.2rem;
 
