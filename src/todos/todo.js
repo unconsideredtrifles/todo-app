@@ -28,7 +28,12 @@ class ProjectTracker {
         let proj = this.#allProjects.find(eachProject => {
             return eachProject.name === currentName;
         });
-        proj.name = newName;
+        if(proj) {
+            proj.name = newName;
+        } else {
+            throw new Error(`Can't rename Project '${currentName}' ` +
+                            `since it doesn't exist`);
+        }
     }
 
     removeProject(projectName) {
