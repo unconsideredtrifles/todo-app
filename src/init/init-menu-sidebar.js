@@ -96,6 +96,7 @@ class ProjectRenamer {
     }
 
     exitRenaming() {
+        this.projectNameEl.textContent = this.currentName;
         this.projectNameEl.removeAttribute("contenteditable");
     }
 }
