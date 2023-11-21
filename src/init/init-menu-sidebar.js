@@ -34,7 +34,7 @@ function getProjectBtns() {
         e.stopPropagation();
     });
 
-    delBtn.addEventListener("click", function() {
+    delBtn.addEventListener("click", function(e) {
         let projectItem = this.parentElement.parentElement;
         let itemText = projectItem.getElementsByClassName("projectItemText")[0];
         projectTracker.removeProject(itemText.textContent);
@@ -43,6 +43,8 @@ function getProjectBtns() {
         toDoUI.loadToDoItems();
 
         console.log(projectTracker.getAllProjects());
+
+        e.stopPropagation();
     });
 
     return [
