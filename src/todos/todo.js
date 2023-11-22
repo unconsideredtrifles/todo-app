@@ -83,7 +83,7 @@ class Project {
 
     addToDo(toDo) {
         if(this.isDuplicateToDo(toDo)) {
-            return;
+            throw new Error("Don't try to add a duplicate todo");
         }
         this.#toDoArr.push(toDo);
     }

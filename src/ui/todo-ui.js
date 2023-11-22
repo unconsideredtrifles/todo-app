@@ -157,10 +157,18 @@ class Dialog {
             let toDoArgs = Array.from(toDoInputs).map(eachInput => {
                 return eachInput.value;
             });
-            let toDoToAdd = new ToDo(...toDoArgs);
-            ToDoUI.activeProject.addToDo(toDoToAdd);
-            displayToDo(toDoToAdd);
 
+            let toDoToAdd = new ToDo(...toDoArgs);
+            try {
+                ToDoUI.activeProject.addToDo(toDoToAdd);
+            } catch(e) {
+                if(e.message == "Don't try to add a duplicate todo") {
+                    this.dialogContainer.close();
+                    return;
+                }
+            }
+
+            displayToDo(toDoToAdd);
             this.dialogContainer.close();
         });
     }
