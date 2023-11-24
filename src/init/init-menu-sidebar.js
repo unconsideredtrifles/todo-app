@@ -143,11 +143,13 @@ function setActiveProject(e) {
     let projectItemList = this.parentElement.parentElement;
 
     let activeItem = projectItemList.getElementsByClassName("activeProjectItem")[0];
-    activeItem.classList.remove("activeProjectItem");
-    let activeIcons = activeItem.getElementsByClassName("activeProjectIcon");
-    Array.from(activeIcons).forEach(eachIcon => {
-        eachIcon.classList.remove("activeProjectIcon");
-    });
+    if(activeItem) {
+        let activeIcons = activeItem.getElementsByClassName("activeProjectIcon");
+        activeItem.classList.remove("activeProjectItem");
+        Array.from(activeIcons).forEach(eachIcon => {
+            eachIcon.classList.remove("activeProjectIcon");
+        });
+    }
 
     let projectIcon = this.getElementsByClassName("projectIcon")[0];
     let editBtn = this.getElementsByClassName("projectEditBtn")[0];
