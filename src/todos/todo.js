@@ -74,22 +74,20 @@ class ProjectTracker {
 
 
 class Project {
-    #toDoArr;
-
     constructor(name = "default", toDoArr = []) {
         this.name = name;
-        this.#toDoArr = toDoArr;
+        this.toDoArr = toDoArr;
     }
 
     addToDo(toDo) {
         if(this.isDuplicateToDo(toDo)) {
             throw new Error("Don't try to add a duplicate todo");
         }
-        this.#toDoArr.push(toDo);
+        this.toDoArr.push(toDo);
     }
 
     isDuplicateToDo(toDo) {
-        return this.#toDoArr.some(eachToDo => {
+        return this.toDoArr.some(eachToDo => {
             let titleEquality = eachToDo.title === toDo.title;
             let descrEquality = eachToDo.description === toDo.description;
             let priorityEquality = eachToDo.priority === toDo.priority;
@@ -101,13 +99,13 @@ class Project {
     }
 
     getToDo(toDoID) {
-        return this.#toDoArr.find(eachToDo => {
+        return this.toDoArr.find(eachToDo => {
             return eachToDo.toDoID === toDoID;
         });
     }
 
     getAllToDos() {
-        return this.#toDoArr;
+        return this.toDoArr;
     }
 
     toggleFinish(toDoID) {
@@ -120,10 +118,10 @@ class Project {
     }
 
     removeToDo(toDoID) {
-        let idx2Delete = this.#toDoArr.findIndex(
+        let idx2Delete = this.toDoArr.findIndex(
             eachToDo => eachToDo.toDoID === toDoID
         );
-        this.#toDoArr.splice(idx2Delete, 1);
+        this.toDoArr.splice(idx2Delete, 1);
     }
 }
 
