@@ -132,15 +132,12 @@ class ToDo {
     #priority;
     #dueDate;
 
-    constructor(title, description, priority, dueDate, parentTodo = null, childTodo = null) {
+    constructor(title, description, priority, dueDate) {
         this.toDoID = ToDo.nextToDoID++;
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.dueDate = dueDate;
-
-        this.parentTodo = parentTodo;
-        this.childTodo = childTodo;
         this.finished = false;
     }
 
