@@ -199,15 +199,16 @@ let menuItemList = new DOMTree(projectMenu, {
 
 let allProjects = projectTracker.getAllProjects();
 allProjects.forEach(eachProject => {
-    let activeProject;
-    if(projectTracker.activeProject.name === eachProject.name) {
-        activeProject = true;
+    let activeProjectPresence;
+    let activeProject = projectTracker.activeProject
+    if(activeProject && activeProject.name === eachProject.name) {
+        activeProjectPresence = true;
     } else {
-        activeProject = false;
+        activeProjectPresence = false;
     }
 
     let menuItemClasses = ["projectItem"];
-    if(activeProject) {
+    if(activeProjectPresence) {
         menuItemClasses.push("activeProjectItem");
     }
     let menuItem = new DOMTree(menuItemList.getRootElement(), {
@@ -217,7 +218,7 @@ allProjects.forEach(eachProject => {
     });
 
     let projectIcon = getProjectIcon();
-    if(activeProject) {
+    if(activeProjectPresence) {
         projectIcon.classList.add("activeProjectIcon");
     }
     menuItem.addChild(projectIcon);
@@ -231,7 +232,7 @@ allProjects.forEach(eachProject => {
     ]);
 
     let [projectBtns, editBtn, delBtn] = getProjectBtns();
-    if(activeProject) {
+    if(activeProjectPresence) {
         editBtn.classList.add("activeProjectIcon");
         delBtn.classList.add("activeProjectIcon");
     }
