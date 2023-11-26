@@ -66,8 +66,8 @@ function limitInput(e) {
 class ProjectRenamer {
     constructor(projectNameEl) {
         this.projectNameEl = projectNameEl;
-        let exitRenameCallback = this.exitRenaming.bind(this);
-        this.projectNameEl.addEventListener("blur", exitRenameCallback);
+        this.exitRenameCallback = this.exitRenaming.bind(this);
+        this.projectNameEl.addEventListener("blur", this.exitRenameCallback);
 
         this.oldName = this.projectNameEl.textContent;
     }
@@ -79,8 +79,10 @@ class ProjectRenamer {
             return;
         }
 
-        if(editProjectName(e)) {
-            this.projectNameEl.removeEventListener("keydown", this);
+        if(e.key === "Enter") {
+            e.target.removeEventListener("blur", this.exitRenameCallback);
+            e.target.removeEventListener("keydown", this);
+            this.projectNameEl.removeAttribute("contenteditable");
             projectTracker.renameProject(this.oldName, e.target.textContent);
         }
     }
