@@ -55,23 +55,10 @@ function getProjectBtns() {
 }
 
 
-function cancelNameAddBox(e) {
-    let menuList = e.target.parentElement.parentElement;
-    let menuListItem = e.target.parentElement;
-    menuList.removeChild(menuListItem);
-}
-
-
-function editProjectName(e) {
+function limitInput(e) {
     if(!(e.ctrlKey) && !(["Backspace", "Enter"].includes(e.key))
             && e.target.textContent.length >= 20) {
         e.preventDefault();
-    }
-
-    if(e.key === "Enter") {
-        e.target.removeAttribute("contenteditable");
-        e.target.parentElement.style.backgroundColor = "";
-        return true;
     }
 }
 
@@ -86,6 +73,7 @@ class ProjectRenamer {
     }
 
     handleEvent(e) {
+        limitInput(e);
         if(e.key === "Escape") {
             this.exitRenaming();
             return;
@@ -114,6 +102,13 @@ function addProjectItem(e) {
         let projectToAdd = new Project(this.textContent);
         projectTracker.addProject(projectToAdd);
     } 
+}
+
+
+function cancelNameAddBox(e) {
+    let menuList = e.target.parentElement.parentElement;
+    let menuListItem = e.target.parentElement;
+    menuList.removeChild(menuListItem);
 }
 
 
