@@ -22,6 +22,7 @@ class ProjectTracker {
             return;
         }
         this.#allProjects.push(project);
+        localStorage.setItem(project.name, JSON.stringify(project));
     }
 
     renameProject(currentName, newName) {
@@ -29,7 +30,12 @@ class ProjectTracker {
             return eachProject.name === currentName;
         });
         if(proj) {
+            if(this.activeProject && this.activeProject.name === currentName) {
+                localStorage.setItem("activeProject", newName);
+            }
             proj.name = newName;
+            localStorage.setItem(proj.name, JSON.stringify(proj))
+            localStorage.removeItem(currentName);
         } else {
             throw new Error(`Can't rename Project '${currentName}' ` +
                             `since it doesn't exist`);
@@ -39,12 +45,15 @@ class ProjectTracker {
     removeProject(projectName) {
         if(this.activeProject && projectName === this.activeProject.name) {
             this.activeProject = undefined;
+            localStorage.setItem("activeProject", "");
         }
 
         let idx2Delete = this.#allProjects.findIndex(eachProject => 
             eachProject.name === projectName
         );
         this.#allProjects.splice(idx2Delete, 1);
+
+        localStorage.removeItem(projectName);
     }
 
     get activeProject() {
@@ -57,6 +66,7 @@ class ProjectTracker {
             return;
         }
 
+        localStorage.setItem("activeProject", projectName);
         for(let eachProject of this.#allProjects) {
             if(eachProject.name === projectName) {
                 this.#currentProject = eachProject;
@@ -175,23 +185,22 @@ class ToDo {
 }
 
 
-let defaultProject = new Project();
-let workProject = new Project("work");
-
 let projectTracker = new ProjectTracker();
-projectTracker.addProject(defaultProject);
-projectTracker.activeProject = defaultProject.name;
-projectTracker.addProject(workProject);
-
-for(let eachToDoArg of toDoData.default) {
-    let eachToDo = new ToDo(...eachToDoArg);
-    defaultProject.addToDo(eachToDo);
+let activeProjectName;
+for(let eachKey in localStorage) {
+    if(localStorage.hasOwnProperty(eachKey)) {
+        if(eachKey === "activeProject" && localStorage.getItem(eachKey)) {
+            activeProjectName = localStorage.getItem(eachKey);
+        } else {
+            projectTracker.addProject(new Project(eachKey));
+        }
+     }
 }
 
-for(let eachToDoArg of toDoData.work) {
-    let eachToDo = new ToDo(...eachToDoArg);
-    workProject.addToDo(eachToDo);
+if(activeProjectName) {
+    projectTracker.activeProject = activeProjectName;
 }
+
 
 export {
     ToDo,
