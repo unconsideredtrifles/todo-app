@@ -105,7 +105,7 @@ function addProjectItem(e) {
         e.target.removeEventListener("keydown", addProjectItem);
         e.target.removeEventListener("blur", cancelNameAddBox);
         e.target.removeAttribute("contenteditable");
-        e.target.style.backgroundColor = "";
+        e.target.parentElement.style.backgroundColor = "";
         let projectToAdd = new Project(this.textContent);
         projectTracker.addProject(projectToAdd);
     } 
