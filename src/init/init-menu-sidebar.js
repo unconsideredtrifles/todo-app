@@ -95,12 +95,17 @@ class ProjectRenamer {
 
 
 function addProjectItem(e) {
+    limitInput(e);
     if(e.key === "Escape") {
-        cancelNameAddBox(e);
+        e.target.removeAttribute("contenteditable");
         return;
     }
 
-    if(editProjectName(e)) {
+    if(e.key === "Enter") {
+        e.target.removeEventListener("keydown", addProjectItem);
+        e.target.removeEventListener("blur", cancelNameAddBox);
+        e.target.removeAttribute("contenteditable");
+        e.target.style.backgroundColor = "";
         let projectToAdd = new Project(this.textContent);
         projectTracker.addProject(projectToAdd);
     } 
@@ -128,6 +133,7 @@ function initProjectItem() {
     projectNameAddBox.setAttribute("contenteditable", "true");
     projectNameAddBox.setAttribute("spellcheck", "false");
     projectNameAddBox.addEventListener("keydown", addProjectItem);
+    projectNameAddBox.addEventListener("blur", cancelNameAddBox);
     projectItem.addChild(projectNameAddBox);
     projectItem.addChild(getProjectBtns()[0]);
 
