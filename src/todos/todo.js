@@ -189,8 +189,11 @@ let projectTracker = new ProjectTracker();
 let activeProjectName;
 for(let eachKey in localStorage) {
     if(localStorage.hasOwnProperty(eachKey)) {
-        if(eachKey === "activeProject" && localStorage.getItem(eachKey)) {
+        if(eachKey === "activeProject") {
             activeProjectName = localStorage.getItem(eachKey);
+            if(!activeProjectName) {
+                activeProjectName = undefined;
+            }
         } else {
             projectTracker.addProject(new Project(eachKey));
         }
