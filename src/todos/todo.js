@@ -34,8 +34,10 @@ class ProjectTracker {
                 localStorage.setItem("activeProject", newName);
             }
             proj.name = newName;
-            localStorage.setItem(proj.name, JSON.stringify(proj))
+
+            let projStorage = localStorage.getItem(currentName);
             localStorage.removeItem(currentName);
+            localStorage.setItem(newName, projStorage);
         } else {
             throw new Error(`Can't rename Project '${currentName}' ` +
                             `since it doesn't exist`);
