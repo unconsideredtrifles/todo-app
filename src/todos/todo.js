@@ -146,8 +146,8 @@ class Project {
         );
         this.toDoArr.splice(idx2Delete, 1);
 
-        let toDoSaver = new ToDoSaver(todo, this.name);
-        toDoSaver.removeToDo();
+        let toDoSaver = new ToDoSaver({}, this.name);
+        toDoSaver.removeToDo(idx2Delete);
         toDoSaver.save();
     }
 }
@@ -275,8 +275,7 @@ class ToDoSaver {
         this.projectInfo.toDoArr.push(this.toDoInfo);
     }
 
-    removeToDo() {
-        let idxToRemove = this.getToDoIdx();
+    removeToDo(idxToRemove) {
         this.projectInfo.toDoArr.splice(idxToRemove, 1);
     }
 
