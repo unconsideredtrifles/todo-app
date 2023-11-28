@@ -2,7 +2,6 @@ import {
     ToDoDate, 
     DateValidator,
 } from "../dates/date.js";
-import toDoData from "./todo-data.json";
 
 
 class ProjectTracker {
