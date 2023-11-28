@@ -154,16 +154,49 @@ class Project {
 class ToDo {
     static priorities = ["low", "medium", "high"];
     static nextToDoID = 0;
+    #title;
+    #description;
     #priority;
     #dueDate;
+    #parentProjectName;
 
     constructor(title, description, priority, dueDate) {
         this.toDoID = ToDo.nextToDoID++;
-        this.title = title;
-        this.description = description;
-        this.priority = priority;
-        this.dueDate = dueDate;
+        this.#title = title;
+        this.#description = description;
+        this.#priority = priority;
+        ToDo.validateDate(dueDate);
+        this.#dueDate = new ToDoDate(dueDate);
         this.finished = false;
+    }
+
+    get parentProjectName() {
+        return this.#parentProjectName;
+    }
+
+    set parentProjectName(projectName) {
+        this.#parentProjectName = projectName;
+        this.toDoSaver = new ToDoSaver(this, projectName);
+    }
+
+    get title() {
+        return this.#title;
+    }
+
+    set title(value) {
+        this.toDoSaver.updateToDo("title", value);
+        this.toDoSaver.save();
+
+        this.#title = value;
+    }
+
+    get description() {
+        return this.#description;
+    }
+
+    set description(value) {
+        this.toDoSaver.updateToDo("description", value);
+        this.toDoSaver.save();
     }
 
     get priority() {
@@ -176,6 +209,9 @@ class ToDo {
             return;
         }
         this.#priority = value;
+
+        this.toDoSaver.updateToDo("priority", value);
+        this.toDoSaver.save();
     }
 
     rotatePriority() {
@@ -192,8 +228,18 @@ class ToDo {
     }
 
     set dueDate(dueDate) {
+        ToDo.validateDate(dueDate);
+        let toDoDate = new ToDoDate(dueDate);
+        this.#dueDate = toDoDate;
+        this.toDoSaver.updateToDo("dueDate", toDoDate.getDateStr());
+        this.toDoSaver.save();
+    }
+
+    static validateDate(dueDate) {
         let dateValidator = new DateValidator(dueDate);
-        let status = dateValidator.validate();
+        return dateValidator.validate();
+    }
+}
 
 
 class ToDoSaver {
