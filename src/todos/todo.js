@@ -178,7 +178,6 @@ class ToDo {
 
     set parentProjectName(projectName) {
         this.#parentProjectName = projectName;
-        this.toDoSaver = new ToDoSaver(this, projectName);
     }
 
     get title() {
@@ -186,8 +185,9 @@ class ToDo {
     }
 
     set title(value) {
-        this.toDoSaver.updateToDo("title", value);
-        this.toDoSaver.save();
+        let toDoSaver = new ToDoSaver(this, this.#parentProjectName);
+        toDoSaver.updateToDo("title", value);
+        toDoSaver.save();
 
         this.#title = value;
     }
@@ -197,8 +197,10 @@ class ToDo {
     }
 
     set description(value) {
-        this.toDoSaver.updateToDo("description", value);
-        this.toDoSaver.save();
+        let toDoSaver = new ToDoSaver(this, this.#parentProjectName);
+        toDoSaver.updateToDo("description", value);
+        toDoSaver.save();
+        this.#description = value;
     }
 
     get priority() {
@@ -210,10 +212,11 @@ class ToDo {
             throw new Error("priority must be one of low, medium and high");
             return;
         }
-        this.#priority = value;
+        let toDoSaver = new ToDoSaver(this, this.#parentProjectName);
+        toDoSaver.updateToDo("priority", value);
+        toDoSaver.save();
 
-        this.toDoSaver.updateToDo("priority", value);
-        this.toDoSaver.save();
+        this.#priority = value;
     }
 
     rotatePriority() {
@@ -232,9 +235,12 @@ class ToDo {
     set dueDate(dueDate) {
         ToDo.validateDate(dueDate);
         let toDoDate = new ToDoDate(dueDate);
+
+        let toDoSaver = new ToDoSaver(this, this.#parentProjectName);
+        toDoSaver.updateToDo("dueDate", toDoDate.getDateStr());
+        toDoSaver.save();
+
         this.#dueDate = toDoDate;
-        this.toDoSaver.updateToDo("dueDate", toDoDate.getDateStr());
-        this.toDoSaver.save();
     }
 
     static validateDate(dueDate) {
