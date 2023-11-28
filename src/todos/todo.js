@@ -97,12 +97,12 @@ class Project {
         if(this.isDuplicateToDo(toDo)) {
             throw new Error("Don't try to add a duplicate todo");
         }
-        toDo.parentProjectName = this.name;
         this.toDoArr.push(toDo);
 
         let toDoSaver = new ToDoSaver(toDo, this.name);
         toDoSaver.addToDo();
         toDoSaver.save();
+        toDo.parentProjectName = this.name;
     }
 
     isDuplicateToDo(toDo) {
