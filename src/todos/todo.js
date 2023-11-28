@@ -160,6 +160,7 @@ class ToDo {
     #description;
     #priority;
     #dueDate;
+    #finished
     #parentProjectName;
 
     constructor(title, description, priority, dueDate) {
@@ -169,7 +170,7 @@ class ToDo {
         this.#priority = priority;
         ToDo.validateDate(dueDate);
         this.#dueDate = new ToDoDate(dueDate);
-        this.finished = false;
+        this.#finished = false;
     }
 
     get parentProjectName() {
@@ -247,6 +248,18 @@ class ToDo {
         let dateValidator = new DateValidator(dueDate);
         return dateValidator.validate();
     }
+
+    get finished() {
+        return this.#finished;
+    }
+
+    set finished(value) {
+        let toDoSaver = new ToDoSaver(this, this.#parentProjectName);
+        toDoSaver.updateToDo("finished", value);
+        toDoSaver.save();
+
+        this.#finished = value;
+    }
 }
 
 
@@ -257,6 +270,7 @@ class ToDoSaver {
             description: toDoObj.description,
             priority: toDoObj.priority,
             dueDate: toDoObj.dueDate,
+            finished: toDoObj.finished
         };
         this.projectInfo = ToDoSaver.getProjectInfo(projectName);
     }
@@ -315,6 +329,7 @@ class ToDoSaver {
                 eachToDo.dueDate
             );
             toDo.parentProjectName = projectInfo.name;
+            toDo.finished = eachToDo.finished
             return toDo;
         });
         return new Project(projectInfo.name, toDos);
