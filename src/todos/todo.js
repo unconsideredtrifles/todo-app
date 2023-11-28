@@ -22,7 +22,7 @@ class ProjectTracker {
             return;
         }
         this.#allProjects.push(project);
-        localStorage.setItem(project.name, JSON.stringify(project));
+        ToDoSaver.saveProject(project);
     }
 
     renameProject(currentName, newName) {
@@ -93,7 +93,12 @@ class Project {
         if(this.isDuplicateToDo(toDo)) {
             throw new Error("Don't try to add a duplicate todo");
         }
+        toDo.parentProjectName = this.name;
         this.toDoArr.push(toDo);
+
+        let toDoSaver = new ToDoSaver(toDo, this.name);
+        toDoSaver.addToDo();
+        toDoSaver.save();
     }
 
     isDuplicateToDo(toDo) {
@@ -125,6 +130,10 @@ class Project {
         } else {
             todo.finished = true;
         }
+
+        let toDoSaver = new ToDoSaver(todo, this.name);
+        toDoSaver.updateToDo();
+        toDoSaver.save();
     }
 
     removeToDo(toDoID) {
@@ -132,6 +141,10 @@ class Project {
             eachToDo => eachToDo.toDoID === toDoID
         );
         this.toDoArr.splice(idx2Delete, 1);
+
+        let toDoSaver = new ToDoSaver(todo, this.name);
+        toDoSaver.removeToDo();
+        toDoSaver.save();
     }
 }
 
@@ -180,7 +193,76 @@ class ToDo {
         let dateValidator = new DateValidator(dueDate);
         let status = dateValidator.validate();
 
-        this.#dueDate = new ToDoDate(dueDate);
+
+class ToDoSaver {
+    constructor(toDoObj, projectName) {
+        this.toDoInfo = {
+            title: toDoObj.title,
+            description: toDoObj.description,
+            priority: toDoObj.priority,
+            dueDate: toDoObj.dueDate,
+        };
+        this.projectInfo = ToDoSaver.getProjectInfo(projectName);
+    }
+
+    static getProjectInfo(projectName) {
+        return JSON.parse(localStorage.getItem(projectName));
+    }
+
+    getToDoIdx() {
+        return this.projectInfo.toDoArr.findIndex(eachToDo => {
+            return (
+                eachToDo.title === this.toDoInfo.title &&
+                eachToDo.description === this.toDoInfo.description &&
+                eachToDo.priority === this.toDoInfo.priority &&
+                eachToDo.dueDate === this.toDoInfo.dueDate
+            )
+        });
+
+    }
+
+    addToDo() {
+        this.projectInfo.toDoArr.push(this.toDoInfo);
+    }
+
+    removeToDo() {
+        let idxToRemove = this.getToDoIdx();
+        this.projectInfo.toDoArr.splice(idxToRemove, 1);
+    }
+
+    updateToDo(prop, value) {
+        let idxToUpdate = this.getToDoIdx();
+        this.toDoInfo[prop] = value;
+        this.projectInfo.toDoArr[idxToUpdate] = this.toDoInfo;
+    }
+
+    save() {
+        localStorage.setItem(this.projectInfo.name, JSON.stringify(this.projectInfo));
+    }
+
+    static saveProject(project) {
+        let projectInfo = {};
+        projectInfo.name = project.name;
+        projectInfo.toDoArr = project.toDoArr.map(eachToDo => {
+            let toDoSaver = new ToDoSaver(eachToDo);
+            return toDoSaver.toDoInfo;
+        });
+        localStorage.setItem(projectInfo.name, JSON.stringify(projectInfo));
+    }
+
+    static openProject(projectName) {
+        let projectInfo = ToDoSaver.getProjectInfo(projectName);
+        let toDos = projectInfo.toDoArr.map(eachToDo => {
+            let toDo = new ToDo(
+                eachToDo.title,
+                eachToDo.description,
+                eachToDo.priority,
+                eachToDo.dueDate
+            );
+            toDo.parentProjectName = projectInfo.name;
+            return toDo;
+        });
+        return new Project(projectInfo.name, toDos);
     }
 }
 
@@ -195,7 +277,8 @@ for(let eachKey in localStorage) {
                 activeProjectName = undefined;
             }
         } else {
-            projectTracker.addProject(new Project(eachKey));
+            let project = ToDoSaver.openProject(eachKey);
+            projectTracker.addProject(project);
         }
      }
 }
@@ -203,7 +286,6 @@ for(let eachKey in localStorage) {
 if(activeProjectName) {
     projectTracker.activeProject = activeProjectName;
 }
-
 
 export {
     ToDo,
