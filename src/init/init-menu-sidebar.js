@@ -67,7 +67,7 @@ class ProjectRenamer {
     constructor(projectNameEl) {
         this.projectNameEl = projectNameEl;
         this.exitRenameCallback = this.exitRenaming.bind(this);
-        this.projectNameEl.addEventListener("blur", this.exitRenameCallback);
+        this.projectNameEl.addEventListener("blur", this.exitRenameCallback, {once: true});
 
         this.oldName = this.projectNameEl.textContent;
     }
@@ -88,6 +88,7 @@ class ProjectRenamer {
     }
 
     exitRenaming() {
+        this.projectNameEl.removeEventListener("keydown", this);
         this.projectNameEl.textContent = this.oldName;
         this.projectNameEl.removeAttribute("contenteditable");
     }
