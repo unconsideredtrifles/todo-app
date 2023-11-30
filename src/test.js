@@ -65,5 +65,26 @@ function testProject() {
 }
 
 
-let test = testProject;
+function populateData() {
+    for(let eachProject in toDoData) {
+        let project = new Project(eachProject)
+        projectTracker.addProject(project);
+
+        toDoData[eachProject].forEach(eachToDo => {
+            let todo = new ToDo(...eachToDo);
+            project.addToDo(todo);
+        });
+    }
+}
+
+function depopulateData() {
+    for(let eachKey in localStorage) {
+        if(localStorage.hasOwnProperty(eachKey)) {
+            localStorage.removeItem(eachKey);
+        }
+    }
+}
+
+
+let test = populateData;
 test();
