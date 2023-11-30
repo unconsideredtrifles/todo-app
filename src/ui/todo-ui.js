@@ -136,7 +136,17 @@ class Dialog {
                 return;
             }
 
+            this.#cleanUpLeftoverInput();
             this.dialogContainer.showModal();
+        });
+    }
+
+    #cleanUpLeftoverInput() {
+        let allInputs = Array.from(this.dialogContainer.querySelectorAll("input"));
+        let textAreaInput = this.dialogContainer.querySelector("textarea");
+        allInputs.push(textAreaInput);
+        allInputs.forEach(eachInput => {
+            eachInput.value = "";
         });
     }
     
