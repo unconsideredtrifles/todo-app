@@ -95,6 +95,7 @@ class ToDoUI {
 
     constructor(tracker) {
         this.projectTracker = tracker;
+        this.projectTitleEl = document.getElementById("projectTitle");
         this.#initContainer();
     }
 
@@ -103,10 +104,24 @@ class ToDoUI {
         this.itemTemplate = document.getElementById("toDoRowTemplate");
     }
 
+    updateToDoProjectTitle() {
+        let projectTitleTextEl = document.getElementById("projectTitleText");
+        if(ToDoUI.activeProject === undefined) {
+            this.projectTitleEl.style.display = "none";
+            return;
+        } 
+
+        if(this.projectTitleEl.style.getPropertyValue("display"))  {
+            this.projectTitleEl.style.removeProperty("display");
+        }
+        projectTitleTextEl.textContent = ToDoUI.activeProject.name;
+    }
+
     loadToDoItems() {
         this.container.textContent = "";
 
         ToDoUI.activeProject = this.projectTracker.activeProject;
+        this.updateToDoProjectTitle();
         if(ToDoUI.activeProject === undefined) {
             return;
         }

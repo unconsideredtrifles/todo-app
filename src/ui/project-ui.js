@@ -88,6 +88,8 @@ class ProjectRenamer {
             e.target.removeEventListener("keydown", this);
             this.projectNameEl.removeAttribute("contenteditable");
             projectTracker.renameProject(this.oldName, e.target.textContent);
+
+            toDoUI.updateToDoProjectTitle();
         }
     }
 
