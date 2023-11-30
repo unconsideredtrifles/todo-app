@@ -48,8 +48,6 @@ function getProjectBtns() {
             setActiveProjectDirect(itemList.children[0]);
         }
 
-        console.log(projectTracker.getAllProjects());
-
         e.stopPropagation();
     });
 

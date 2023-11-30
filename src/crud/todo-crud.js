@@ -14,7 +14,6 @@ function makeContentEditable(e, elementToEdit, toDoID, toDoProp, maxTextLen) {
             let toDoToEdit = projectTracker.activeProject.getToDo(toDoID);
             toDoToEdit[toDoProp] = e.target.textContent;
             e.target.removeAttribute("contenteditable");
-            console.log(projectTracker.activeProject);
         } else if (e.key === "Escape") {
             e.target.removeAttribute("contenteditable");
         }
@@ -51,9 +50,7 @@ function getToDoToEdit(element) {
 
 function editToDoDate(e) {
     let toDoToEdit = getToDoToEdit(this);
-    console.log(e.target.value);
     toDoToEdit.dueDate = e.target.value;
-    console.log(projectTracker.activeProject.getAllToDos());
 }
 
 
@@ -66,7 +63,6 @@ function editToDoPriority(e) {
     this.classList.add(newClassName);
     let hoverText = this.getElementsByTagName("title")[0];
     hoverText.textContent = toDoToEdit.priority + " priority";
-    console.log(projectTracker.activeProject.getAllToDos());
 }
 
 
@@ -82,7 +78,6 @@ function deleteToDo(e) {
     let separatorToRemove = currentToDoEl.nextElementSibling;
     currentToDoEl.parentElement.removeChild(separatorToRemove);
     currentToDoEl.parentElement.removeChild(currentToDoEl);
-    console.log(projectTracker.activeProject.getAllToDos());
 }
 
 
