@@ -178,6 +178,8 @@ class Dialog {
 let toDoUI = new ToDoUI(projectTracker);
 let dialog = new Dialog();
 
+toDoUI.loadToDoItems();
+
 export {
     toDoUI,
 };

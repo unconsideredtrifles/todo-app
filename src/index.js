@@ -1,4 +1,2 @@
-import { toDoUI } from "./ui/todo-ui.js";
-import "./init/init-menu-sidebar.js";
-
-toDoUI.loadToDoItems();
+import "./ui/todo-ui.js";
+import "./ui/project-us.js";
