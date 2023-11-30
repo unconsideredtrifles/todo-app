@@ -29,6 +29,25 @@ form, button {
     font-size: 1.5rem;
 }
 
+#projectTitle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    width: 60%;
+    margin: 0 auto 3rem;
+    font-size: 2rem;
+}
+
+#projectTitleText {
+    margin-right: 0.5rem;
+}
+
+#projectTitleLine {
+    border-top: 1px solid #c3c3c3;
+    flex: 1;
+}
+
 #toDoDisplay {
    width: 60%; 
    margin: 0 auto 5rem;
