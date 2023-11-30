@@ -22,6 +22,11 @@ class ProjectTracker {
         }
         this.#allProjects.push(project);
         ToDoSaver.saveProject(project);
+
+        if(this.#allProjects.length === 1) {
+            this.#currentProject = project;
+            localStorage.setItem("activeProject", project.name);
+        }
     }
 
     renameProject(currentName, newName) {
@@ -50,17 +55,21 @@ class ProjectTracker {
     }
 
     removeProject(projectName) {
-        if(this.activeProject && projectName === this.activeProject.name) {
-            this.activeProject = undefined;
-            localStorage.setItem("activeProject", "");
-        }
-
         let idx2Delete = this.#allProjects.findIndex(eachProject => 
             eachProject.name === projectName
         );
         this.#allProjects.splice(idx2Delete, 1);
-
         localStorage.removeItem(projectName);
+
+        if(this.activeProject && projectName === this.activeProject.name) {
+            if(this.#allProjects.length === 1) {
+                this.#currentProject = this.#allProjects[0];
+                localStorage.setItem("activeProject", this.#currentProject.name);
+            } else {
+                this.#currentProject = undefined;
+                localStorage.setItem("activeProject", "");
+            }
+        }
     }
 
     get activeProject() {

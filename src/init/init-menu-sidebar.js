@@ -39,8 +39,14 @@ function getProjectBtns() {
         let itemText = projectItem.getElementsByClassName("projectItemText")[0];
         projectTracker.removeProject(itemText.textContent);
 
-        projectItem.parentElement.removeChild(projectItem);
+        let itemList = projectItem.parentElement;
+        itemList.removeChild(projectItem);
         toDoUI.loadToDoItems();
+
+        let totalProjects = projectTracker.getAllProjects().length;
+        if(totalProjects === 1) {
+            setActiveProjectDirect(itemList.children[0]);
+        }
 
         console.log(projectTracker.getAllProjects());
 
@@ -109,6 +115,11 @@ function addProjectItem(e) {
         e.target.parentElement.style.backgroundColor = "";
         let projectToAdd = new Project(this.textContent);
         projectTracker.addProject(projectToAdd);
+
+        let totalProjects = projectTracker.getAllProjects().length;
+        if(totalProjects === 1) {
+            setActiveProjectDirect(this.parentElement);
+        }
     } 
 }
 
@@ -141,6 +152,9 @@ function initProjectItem() {
     projectNameAddBox.focus();
 }
 
+function setActiveProjectDirect(targetElement) {
+    setActiveProject.call(targetElement);
+}
 
 function setActiveProject(e) {
     let projectName = this.getElementsByClassName("projectItemText")[0];
