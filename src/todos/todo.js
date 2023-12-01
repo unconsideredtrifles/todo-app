@@ -379,6 +379,8 @@ for(let eachKey in localStorage) {
 
 if(activeProjectName) {
     projectTracker.activeProject = activeProjectName;
+} else if (projectTracker.getAllProjects().length === 0) {
+    projectTracker.addProject(new Project("default"));
 }
 
 export {
