@@ -347,9 +347,10 @@ class ToDoSaver {
         return new Project(projectInfo.name, toDos);
     }
 
-    static checkIfValidProject(projectInfo) {
-        let lengthCheck = (projectInfo.length === 2);
+    static checkIfValidProject(projectName) {
+        let projectInfo = ToDoSaver.getProjectInfo(projectName);
         let objProps = Object.keys(projectInfo).sort();
+        let lengthCheck = (objProps.length === 2);
         let propsCheck = (objProps[0] === "name" && objProps[1] === "toDoArr");
 
         return (lengthCheck && propsCheck);
