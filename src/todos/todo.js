@@ -346,6 +346,14 @@ class ToDoSaver {
         });
         return new Project(projectInfo.name, toDos);
     }
+
+    static checkIfValidProject(projectInfo) {
+        let lengthCheck = (projectInfo.length === 2);
+        let objProps = Object.keys(projectInfo).sort();
+        let propsCheck = (objProps[0] === "name" && objProps[1] === "toDoArr");
+
+        return (lengthCheck && propsCheck);
+    }
 }
 
 
@@ -359,6 +367,9 @@ for(let eachKey in localStorage) {
                 activeProjectName = undefined;
             }
         } else {
+            if(!ToDoSaver.checkIfValidProject(eachKey)) {
+                continue;
+            }
             let project = ToDoSaver.openProject(eachKey);
             projectTracker.addProject(project);
         }
