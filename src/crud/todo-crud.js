@@ -2,6 +2,7 @@ import { projectTracker } from "../todos/todo.js";
 
 
 function makeContentEditable(e, elementToEdit, toDoID, toDoProp, maxTextLen) {
+    let uneditedContent = elementToEdit.textContent;
     elementToEdit.setAttribute("contenteditable", "true");
     elementToEdit.addEventListener("keydown", e => {
         if((!e.ctrlKey) && (!["Enter", "Escape", "Backspace"].includes(e.key)) 
@@ -15,6 +16,7 @@ function makeContentEditable(e, elementToEdit, toDoID, toDoProp, maxTextLen) {
             toDoToEdit[toDoProp] = e.target.textContent;
             e.target.removeAttribute("contenteditable");
         } else if (e.key === "Escape") {
+            e.target.textContent = uneditedContent;
             e.target.removeAttribute("contenteditable");
         }
     })
