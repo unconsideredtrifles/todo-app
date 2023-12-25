@@ -255,7 +255,7 @@ form, button {
     max-width: 80%;
 
     color: #333;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .toDoDescription[contenteditable=true]:focus-visible {
