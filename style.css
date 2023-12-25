@@ -248,11 +248,13 @@ form, button {
     align-items: center;
     gap: 0.4rem;
 
-    margin-bottom: 0.8rem;
+    margin-bottom: 2.5rem;
 }
 
 .toDoDescription {
     max-width: 80%;
+
+    color: #333;
     word-wrap: break-word;
 }
 
@@ -264,11 +266,16 @@ form, button {
 }
 
 .descriptionEditBtn {
-    fill: #444;
+    fill: #000;
     width: 2rem;
     margin-left: 1.5rem;
 
     cursor: pointer;
+}
+
+.dueDate {
+    font-size: 0.95rem;
+    font-weight: 600;
 }
 
 .toDoDate {
