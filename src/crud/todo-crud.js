@@ -4,6 +4,11 @@ import { projectTracker } from "../todos/todo.js";
 function makeContentEditable(e, elementToEdit, toDoID, toDoProp, maxTextLen) {
     let uneditedContent = elementToEdit.textContent;
     elementToEdit.setAttribute("contenteditable", "true");
+
+    elementToEdit.addEventListener("blur", e => {
+        e.target.textContent = uneditedContent;
+        e.target.removeAttribute("contenteditable");
+    });
     elementToEdit.addEventListener("keydown", e => {
         if((!e.ctrlKey) && (!["Enter", "Escape", "Backspace"].includes(e.key)) 
             && e.target.textContent.length >= maxTextLen) {
