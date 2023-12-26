@@ -1,31 +1,65 @@
 import { projectTracker } from "../todos/todo.js";
 
 
-function makeContentEditable(e, elementToEdit, toDoID, toDoProp, maxTextLen) {
-    let uneditedContent = elementToEdit.textContent;
-    elementToEdit.setAttribute("contenteditable", "true");
+class ContentEditor {
+    static toDoID;
+    static toDoProp;
+    static maxTextLen;
+    static uneditedContent;
 
-    elementToEdit.addEventListener("blur", e => {
-        e.target.textContent = uneditedContent;
+    static cancelEditing(e) {
+        e.target.textContent = ContentEditor.uneditedContent;
         e.target.removeAttribute("contenteditable");
-    });
-    elementToEdit.addEventListener("keydown", e => {
-        if((!e.ctrlKey) && (!["Enter", "Escape", "Backspace"].includes(e.key)) 
-            && e.target.textContent.length >= maxTextLen) {
+    }
+
+    static readInput(e) {
+        if(!e.ctrlKey && (!["Enter", "Escape", "Backspace"].includes(e.key))
+            && e.target.textContent.length >= ContentEditor.maxTextLen) {
             e.preventDefault();
             return;
         }
 
         if(e.key === "Enter") {
-            let toDoToEdit = projectTracker.activeProject.getToDo(toDoID);
-            toDoToEdit[toDoProp] = e.target.textContent;
+            let toDoToEdit = projectTracker.activeProject.getToDo(
+                ContentEditor.toDoID
+            );
+            toDoToEdit[ContentEditor.toDoProp] = e.target.textContent;
+            e.target.removeEventListener(
+                "blur",
+                ContentEditor.cancelEditing
+            );
+            e.target.removeEventListener(
+                "keydown",
+                ContentEditor.readInput
+            );
             e.target.removeAttribute("contenteditable");
         } else if (e.key === "Escape") {
-            e.target.textContent = uneditedContent;
-            e.target.removeAttribute("contenteditable");
+            e.target.removeEventListener(
+                "blur",
+                ContentEditor.cancelEditing
+            );
+            e.target.removeEventListener(
+                "keydown",
+                ContentEditor.readInput
+            );
+            ContentEditor.cancelEditing(e);
         }
-    })
-    elementToEdit.focus();
+
+    }
+
+    static makeContentEditable(
+        e, elementToEdit, toDoID, toDoProp, maxTextLen
+    ) {
+        ContentEditor.toDoID = toDoID;
+        ContentEditor.toDoProp = toDoProp;
+        ContentEditor.maxTextLen = maxTextLen;
+        ContentEditor.uneditedContent = elementToEdit.textContent;
+
+        elementToEdit.setAttribute("contenteditable", "true");
+        elementToEdit.addEventListener("blur", ContentEditor.cancelEditing);
+        elementToEdit.addEventListener("keydown", ContentEditor.readInput);
+        elementToEdit.focus();
+    }
 }
 
 
@@ -34,7 +68,7 @@ function makeTitleEditable(e) {
     let toDoTitle = toDoTopRow.children[0].children[1];
     let toDoID = +toDoTopRow.parentElement.dataset.id;
 
-    makeContentEditable(e, toDoTitle, toDoID, "title", 30);
+    ContentEditor.makeContentEditable(e, toDoTitle, toDoID, "title", 30);
 }
 
 function makeDescriptionEditable(e) {
@@ -42,7 +76,7 @@ function makeDescriptionEditable(e) {
     let toDo = this.parentElement.parentElement.parentElement
     let toDoID = +toDo.dataset.id;
 
-    makeContentEditable(e, toDoDescription, toDoID, "description", 100);
+    ContentEditor.makeContentEditable(e, toDoDescription, toDoID, "description", 5000);
 }
 
 function getToDoToEdit(element) {
