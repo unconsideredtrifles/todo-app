@@ -68,7 +68,7 @@ function makeTitleEditable(e) {
     let toDoTitle = toDoTopRow.children[0].children[1];
     let toDoID = +toDoTopRow.parentElement.dataset.id;
 
-    ContentEditor.makeContentEditable(e, toDoTitle, toDoID, "title", 30);
+    ContentEditor.makeContentEditable(e, toDoTitle, toDoID, "title", 50);
 }
 
 function makeDescriptionEditable(e) {
