@@ -245,7 +245,7 @@ form, button {
 
 .description {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     gap: 0.4rem;
 
     margin-bottom: 2.5rem;
@@ -266,6 +266,9 @@ form, button {
 }
 
 .descriptionEditBtn {
+    position: relative;
+    top: 0.5rem;
+
     fill: #000;
     width: 2rem;
     margin-left: 1.5rem;
