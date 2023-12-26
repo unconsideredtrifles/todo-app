@@ -345,7 +345,10 @@ form, button {
     resize: none;
 
     width: 100%;
+    max-height: 5rem;
     border: none;
+    margin-bottom: 0.5rem;
+
     font-size: inherit;
     font-family: inherit;
 }

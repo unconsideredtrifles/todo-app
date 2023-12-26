@@ -135,9 +135,26 @@ class ToDoUI {
 class Dialog {
     constructor() {
         this.dialogContainer = document.getElementById("toDoAdderDialog");
+        this.#initDynamicUI();
         this.#registerOpenBtn();
         this.#registerCloseBtn();
         this.#registerSubmitBtn();
+    }
+
+    #initDynamicUI() {
+        let toDoDescription = this.dialogContainer.querySelector("textarea");
+        toDoDescription.addEventListener("input", e => {
+            if(e.target.value.length != 0) {
+                let targetStyle = window.getComputedStyle(e.target);
+                let paddingTop = +targetStyle.paddingTop.slice(0, -2);
+                let paddingBottom = +targetStyle.paddingBottom.slice(0, -2);
+                let padding = paddingTop + paddingBottom;
+                let scrollHeight = e.target.scrollHeight - padding;
+                e.target.style.height = scrollHeight + "px";
+            } else if(e.target.style.getPropertyValue("height") != "") {
+                e.target.style.removeProperty("height");
+            }
+        });
     }
 
     #checkActiveProjectPresence() {
