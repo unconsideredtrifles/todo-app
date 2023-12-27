@@ -303,10 +303,6 @@ form, button {
     margin: 0 auto;
 }
 
-/* .finishedToDo + .toDoSeparator:not(:last-of-type) { */
-    /* border-width: 0px; */
-/* } */
-
 #toDoAdderDialog {
     width: 35%;
 
