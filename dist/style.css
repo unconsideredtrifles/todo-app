@@ -144,17 +144,7 @@ form, button {
 }
 
 .strikedOutDescription {
-    position: relative;
-}
-
-.strikedOutDescription::before {
-    position: absolute;
-    top: 50%;
-    left: -0.3rem;
-    right: -2.3rem;
-
-    content: "";
-    border-bottom: 1.5px solid #848484;
+    text-decoration: line-through;
 }
 
 .strikedOutDate {
