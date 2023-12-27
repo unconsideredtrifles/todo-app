@@ -286,14 +286,26 @@ form, button {
 }
 
 .toDoSeparator:not(:last-of-type) {
+    position: relative;
+    z-index: 1;
+}
+
+.finishedToDo + .toDoSeparator:not(:last-of-type) {
+    background-color: #d6d6d6;
+}
+
+.toDoSeparator:not(:last-of-type)::before {
+    content: "";
+    display: block;
+
     border-bottom: 1px solid #c3c3c3;
     width: 95%;
     margin: 0 auto;
 }
 
-.finishedToDo + .toDoSeparator:not(:last-of-type) {
-    border-width: 0px;
-}
+/* .finishedToDo + .toDoSeparator:not(:last-of-type) { */
+    /* border-width: 0px; */
+/* } */
 
 #toDoAdderDialog {
     width: 35%;
